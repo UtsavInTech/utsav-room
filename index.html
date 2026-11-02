@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/motion.css?v=3">
 <style>
 :root{
   --ink:#1f1c18; --ink-2:#4d4740; --ink-3:#7c746a;
@@ -174,6 +174,23 @@ body.hide-ui .ui:not(.keep){translate:0 10px;filter:blur(6px)}
 #mac iframe{scale:.94;filter:blur(8px);transition:scale .9s var(--spring-soft),filter .6s var(--ease-out)}
 #mac.open iframe{scale:1;filter:none}
 
+/* compact music player */
+.mp{width:250px;gap:5px;padding:5px 6px 5px 5px;border-radius:14px}
+.mp-art{width:34px;height:34px;border-radius:8px}
+.mp-meta b{font-size:12px}.mp-meta span{font-size:10.5px}
+.mp-prog{height:2px;margin-top:4px}
+.mp-b{width:26px;height:26px;font-size:10px}
+.mp-play{width:30px;height:30px;font-size:11px}
+.mp-list{width:280px;max-height:320px}
+.mp-list img{width:30px;height:30px}
+@media (max-width:720px){
+  /* on phones it tucks into the top bar: just the cover and play */
+  .mp{top:16px;right:66px;bottom:auto;left:auto;width:auto;height:42px;padding:4px;border-radius:999px}
+  .mp-meta,.mp-b:not(.mp-play){display:none}
+  .mp-art{width:32px;height:32px;border-radius:50%}
+  .mp-play{width:32px;height:32px}
+  .mp-list{bottom:auto;top:calc(100% + 8px);right:-54px;left:auto;width:min(300px,calc(100vw - 24px));transform-origin:top right}
+}
 @media (prefers-reduced-motion:reduce){
   body.pre .ui{translate:none;filter:none}
   .years .ind{transition:none}
@@ -228,7 +245,7 @@ body.hide-ui .ui:not(.keep){translate:0 10px;filter:blur(6px)}
 <div id="mac" aria-hidden="true"><iframe id="macframe" title="Utsav's laptop" loading="lazy"></iframe></div>
 <button id="back">Back to the desk</button>
 
-<script src="js/songs.js"></script>
+<script src="js/songs.js?v=3"></script>
 <script>
 /* -------- one music player for the room and the laptop -------- */
 window.SharedPlayer = window.createPlayer();
@@ -454,8 +471,16 @@ const rug = mesh(new THREE.PlaneGeometry(3.4, 2.4), M(0xffffff,{ map:rugTex, rou
 /* ---------- desk + laptop (procedural, exact sizes) ---------- */
 const deskTop = mesh(new RoundedBoxGeometry(1.7,.045,.78,3,.012), pbr("oak_veneer_01", 1.2, .6, { roughness:.8 }));
 deskTop.position.set(0,.75,-1.9); scene.add(deskTop);
-const legM = M(0xb48a5e,{ roughness:.5 });
-[[-.78,-.32],[.78,-.32],[-.78,.32],[.78,.32]].forEach(([x,z])=>{ const l = mesh(new THREE.CylinderGeometry(.022,.018,.73,16), legM); l.position.set(x,.365,-1.9+z); scene.add(l); });
+/* matte black steel frame: two sled-shaped side frames joined by a crossbar */
+const steelM = M(0x1d1d1f,{ roughness:.42, metalness:.55 });
+const tube = (w,h,d,x,y,z) => { const t = mesh(new RoundedBoxGeometry(w,h,d,2,.008), steelM); t.position.set(x,y,-1.9+z); scene.add(t); };
+[-.74,.74].forEach(x => {
+  tube(.045,.7,.045, x,.377,-.31); tube(.045,.7,.045, x,.377,.31);   // posts
+  tube(.05,.028,.7,  x,.014,0);                                       // floor runner
+  tube(.05,.035,.7,  x,.71,0);                                        // top rail under the oak
+  [-.31,.31].forEach(z => { const f = mesh(new THREE.CylinderGeometry(.018,.02,.008,16), M(0x111111,{roughness:.9})); f.position.set(x,.004,-1.9+z); scene.add(f); }); // felt feet
+});
+tube(1.43,.045,.03, 0,.69,.3);                                         // front crossbar
 
 const laptop = new THREE.Group(); laptop.position.set(0,.773,-2.02); laptop.rotation.y = Math.PI;
 /* MacBook Air-style: one-piece aluminium, black keys, thin black bezel with a notch, glowing logo */
@@ -790,7 +815,7 @@ function openLaptop(){
   if (macOpen || flying) return; flying = true; $("#tip").classList.remove("on");
   document.body.classList.add("hide-ui"); if (person) person.visible = false;
   goalPos.set(...POSES.laptop.p); goalTgt.set(...POSES.laptop.t);
-  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/";
+  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=3";
   setTimeout(() => { $("#mac").classList.add("open"); $("#mac").setAttribute("aria-hidden","false"); macOpen = true; flying = false; $("#back").focus(); }, reduce ? 0 : 1300);
 }
 function closeLaptop(){ $("#mac").classList.remove("open"); $("#mac").setAttribute("aria-hidden","true"); macOpen = false; document.body.classList.remove("hide-ui"); if (person) person.visible = true; setStop(stop); }
