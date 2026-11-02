@@ -1,0 +1,14 @@
+{
+  "name": "utsav-room",
+  "private": true,
+  "description": "Utsav's Room: a 3D portfolio for the Wispr Flow India growth team",
+  "scripts": {
+    "start": "serve . --listen tcp://0.0.0.0:${PORT:-3000} --no-clipboard"
+  },
+  "dependencies": {
+    "serve": "14.2.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

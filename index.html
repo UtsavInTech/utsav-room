@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=4">
+<link rel="stylesheet" href="css/motion.css?v=5">
 <style>
 :root{
   --ink:#1f1c18; --ink-2:#4d4740; --ink-3:#7c746a;
@@ -245,7 +245,7 @@ body.hide-ui .ui:not(.keep){translate:0 10px;filter:blur(6px)}
 <div id="mac" aria-hidden="true"><iframe id="macframe" title="Utsav's laptop" loading="lazy"></iframe></div>
 <button id="back">Back to the desk</button>
 
-<script src="js/songs.js?v=4"></script>
+<script src="js/songs.js?v=5"></script>
 <script>
 /* -------- one music player for the room and the laptop -------- */
 window.SharedPlayer = window.createPlayer();
@@ -280,7 +280,7 @@ splitText(document.querySelector("#intro h1"), "Utsav", true);
 window.STOPS = [
   { key:"home", label:"", when:"", age:"", title:"Welcome in",
     text:"Scroll or drag through the years of my life. The laptop on my desk is real, by the way. Open it.",
-    acts:[{t:"Open my laptop", laptop:true, dark:true}] },
+    acts:[{t:"▶ 3-minute tour", tour:true, dark:true},{t:"Open my laptop", laptop:true}] },
   { key:"2021", label:"2021", when:"April 2021", age:"Class 10", title:"The exam that never happened",
     text:"The second wave cancelled my board exams. Everyone felt relief. I felt something had been taken away, and I still carry that, just more quietly." },
   { key:"2023", label:"2023", when:"2023", age:"Delhi", title:"A new door",
@@ -774,7 +774,7 @@ function setStop(i, instant=false){
   requestAnimationFrame(()=>document.body.style.setProperty("--hello-b", (innerHeight - card.getBoundingClientRect().top + 48) + "px"));
   const acts = $("#ca"); acts.innerHTML = "";
   (s.acts||[]).forEach(a => { const el = document.createElement(a.href ? "a" : "button"); el.className = "pill" + (a.dark ? " dark" : ""); el.textContent = a.t; el.style.setProperty("--i", acts.children.length);
-    if (a.href){ el.href = a.href; if (!a.href.startsWith("mailto")) { el.target = "_blank"; el.rel = "noopener"; } } else el.onclick = openLaptop; acts.appendChild(el); });
+    if (a.href){ el.href = a.href; if (!a.href.startsWith("mailto")) { el.target = "_blank"; el.rel = "noopener"; } } else el.onclick = () => openLaptop(!!a.tour); acts.appendChild(el); });
   for (const [k, arr] of Object.entries(memories)) arr.forEach(o => o.on = (k === s.key));
 }
 const yearsEl = $("#years");
@@ -811,11 +811,17 @@ canvas.addEventListener("click", e => { if (moved || macOpen) return; const o = 
 
 /* ---------- laptop: fly in, then open the real desktop ---------- */
 let macOpen = false, flying = false;
-function openLaptop(){
+function openLaptop(tour){
+  tour = tour === true;
   if (macOpen || flying) return; flying = true; $("#tip").classList.remove("on");
   document.body.classList.add("hide-ui"); if (person) person.visible = false;
   goalPos.set(...POSES.laptop.p); goalTgt.set(...POSES.laptop.t);
-  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=4";
+  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=5";
+  if (tour){ // start the guided tour once the laptop page is ready
+    const go = () => { try { fr.contentWindow.startTour(); } catch(e){} };
+    let ready = false; try { ready = !!fr.contentWindow.startTour && fr.contentDocument.readyState === "complete"; } catch(e){}
+    if (ready) setTimeout(go, reduce ? 0 : 1300); else fr.addEventListener("load", () => setTimeout(go, 400), { once:true });
+  }
   setTimeout(() => { $("#mac").classList.add("open"); $("#mac").setAttribute("aria-hidden","false"); macOpen = true; flying = false; $("#back").focus(); }, reduce ? 0 : 1300);
 }
 function closeLaptop(){ $("#mac").classList.remove("open"); $("#mac").setAttribute("aria-hidden","true"); macOpen = false; document.body.classList.remove("hide-ui"); if (person) person.visible = true; setStop(stop); }

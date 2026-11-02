@@ -15,7 +15,7 @@ It's plain HTML, CSS and JavaScript with no build step. It needs a local server 
 python3 -m http.server 8768
 ```
 
-Then open http://localhost:8768
+Then open http://localhost:8768. Or, with Node: `npm install && npm start` (this is also how Railway runs it).
 
 ## What's inside
 
