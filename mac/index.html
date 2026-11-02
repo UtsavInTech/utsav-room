@@ -1262,7 +1262,7 @@ BUILD.build = (el, win) => {
   const STORY = [
     { k:"Day 1 · idea", said:"Build something that brings my story to life… creativity, voice, ownership, work over credentials. Fast.", did:"read my repos, my portfolio and the Wispr brief, then built a 3D desk preview." },
     { k:"Feedback", said:"Not approved… the colour choices are wrong, the layout is wrong. I want it interactive, close to the real world.", did:"threw it away and built a bright laptop desktop with playable apps." },
-    { k:"Direction", said:"No — something like nikhilsheoran.com.", did:"rebuilt it as a 3D room you walk into, with a timeline of my years." },
+    { k:"My idea", said:"I want a real room you can walk into. Me at my desk, my years on a timeline, and a laptop that actually opens.", did:"rebuilt it as a 3D room you walk into, with a timeline of my years." },
     { k:"Make it mine", said:"Use my pictures… San Francisco real background, a building, a table, and my 3D image sitting.", did:"added my photos, a real view from a San Francisco tower, and my avatar at the desk." },
     { k:"Polish", said:"The laptop should be a MacBook with the logo shining… and the same interface as the latest Mac.", did:"built the MacBook, this macOS desktop, Notes, Photos, Safari and Mail." },
     { k:"Now", said:"Add songs, and show how I build with Wispr Flow — idea to startup.", did:"made the Music app and this one. You're looking at it." }
@@ -1280,7 +1280,7 @@ BUILD.build = (el, win) => {
     </section>
     <section data-p="me" hidden>
       <h1>How I built <i>this</i>.</h1>
-      <p class="sub">I didn't type the plan for this site. I said it, through Wispr Flow, and Claude built each version. When I didn't like something, I said so, out loud. These are my own words, lightly trimmed.</p>
+      <p class="sub">I didn't type the plan for this site. I said it, through Wispr Flow, and Claude built each version. When I didn't like something, I said so, out loud. These are my own instructions, trimmed.</p>
       <div class="story">${STORY.map(x=>`<div class="step"><div class="k">${x.k}</div><div><div class="said">${x.said}</div><div class="did">${x.did}</div></div></div>`).join("")}</div>
       <p class="legend">Six rounds of spoken feedback, three complete redesigns. Speaking let me say the whole idea, including what I hated, without shortening it to fit a keyboard.</p>
     </section></div>`;
@@ -1373,7 +1373,7 @@ BUILD.story = (el, win) => {
   const SAID = [
     ["#1","Build something that brings my story to life. Creativity, voice, ownership. Fast."],
     ["#2","Not approved. The colours are wrong, the layout is wrong. Make it interactive, real world."],
-    ["#3","Something like nikhilsheoran.com. A room you walk into."],
+    ["#3","A real room you walk into. Me at my desk, my years on a timeline, a laptop that opens."],
     ["#4","Use my pictures. San Francisco view, a table, and me sitting there."],
     ["#5","The laptop should be a MacBook, logo shining, the real Mac interface."],
     ["#6","Show how I build with Wispr Flow. From an idea to a startup."]
