@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=8">
+<link rel="stylesheet" href="css/motion.css?v=9">
 <style>
 :root{
   --ink:#1f1c18; --ink-2:#4d4740; --ink-3:#7c746a;
@@ -259,16 +259,16 @@ body.touring .tagline{opacity:0;pointer-events:none}
   <div class="mp-list glass" id="mpList" hidden></div>
   <button class="mp-art" id="mpArt" aria-label="Show playlist"><img alt=""></button>
   <div class="mp-meta"><b id="mpT">Songs I build to</b><span id="mpA">Tap play</span><div class="mp-prog"><i id="mpP"></i></div></div>
-  <button class="mp-b" id="mpPrev" aria-label="Previous song">⏮</button>
+  <button class="mp-b" id="mpPrev" aria-label="Previous song"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2.5v14H6zM20 5v14L9.5 12z"/></svg></button>
   <button class="mp-b mp-play" id="mpPlay" aria-label="Play or pause">▶</button>
-  <button class="mp-b" id="mpNext" aria-label="Next song">⏭</button>
+  <button class="mp-b" id="mpNext" aria-label="Next song"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 5H18v14h-2.5zM4 5l10.5 7L4 19z"/></svg></button>
 </section>
 <div id="tip" class="glass"></div>
 
 <div id="mac" aria-hidden="true"><iframe id="macframe" title="Utsav's laptop"></iframe></div>
 <button id="back">Back to the desk</button>
 
-<script src="js/songs.js?v=8"></script>
+<script src="js/songs.js?v=9"></script>
 <script>
 /* -------- one music player for the room and the laptop -------- */
 window.SharedPlayer = window.createPlayer();
@@ -459,7 +459,7 @@ const bench = mesh(new RoundedBoxGeometry(3.6,.42,.5,3,.02), benchM); bench.posi
 const cushion = mesh(new RoundedBoxGeometry(3.5,.1,.46,4,.045), M(0xe9e2d6,{ roughness:.95 })); cushion.position.set(1.95,.47,backZ+.3); scene.add(cushion);
 [[1.0,.0],[1.45,.2]].forEach(([x,r]) => { const pil = mesh(new RoundedBoxGeometry(.4,.36,.13,4,.06), M(r ? 0xb88a5c : 0x8e9b8a,{ roughness:1 })); pil.position.set(x+.9,.69,backZ+.18); pil.rotation.set(-.15,r,0); scene.add(pil); });
 
-/* the view: a sunrise over the mountains (the place I'm happiest) */
+/* the view outside: a painted sky that shows until the real photo loads */
 const viewTex = canvasTex(2048, 1024, (g, w, h) => {
   const sky = g.createLinearGradient(0,0,0,h); sky.addColorStop(0,"#9fbfdc"); sky.addColorStop(.45,"#f4d9bd"); sky.addColorStop(.62,"#ffc79a"); sky.addColorStop(1,"#f0b38c");
   g.fillStyle = sky; g.fillRect(0,0,w,h);
@@ -471,7 +471,6 @@ const viewTex = canvasTex(2048, 1024, (g, w, h) => {
   ridge(h*.72, 170, "#7f93a3", 2.1, false);
   ridge(h*.82, 120, "#56707a", 3.7, false);
   ridge(h*.92, 80, "#3d5559", 5.2, false);
-  // prayer flags line
   g.strokeStyle="rgba(60,50,40,.5)"; g.lineWidth=2; g.beginPath(); g.moveTo(0,h*.2); g.quadraticCurveTo(w*.25,h*.32,w*.5,h*.22); g.stroke();
   const cols=["#3b6fd4","#f5f5f0","#d63d3d","#3a9b5c","#f2c230"]; for (let i=0;i<22;i++){ const t=i/22, x=w*.5*t, y=(1-t)*(1-t)*h*.2+2*(1-t)*t*h*.32+t*t*h*.22; g.fillStyle=cols[i%5]; g.fillRect(x-9,y,18,26); }
 });
@@ -637,7 +636,6 @@ for (let i=0;i<5;i++){ const a = i/5*Math.PI*2; const leg = mesh(new THREE.BoxGe
   const wheel = mesh(new THREE.SphereGeometry(.022,12,8), chairM); wheel.position.set(Math.sin(a)*.29,.022,Math.cos(a)*.29); chair.add(wheel); }
 scene.add(chair);
 
-/* ---------- me, sitting at the desk (stand-in figure until my own 3D avatar is ready) ---------- */
 let person = null;
 /* me: my own 3D avatar (made from my selfies on Avaturn), posed typing at the laptop */
 function aim(person, name, child, dir){
@@ -681,7 +679,7 @@ new GLTFLoader(manager).load("models/me/utsav.glb", gltf => {
   person = me;
 });
 
-/* ---------- photos: drop files into photos/ (1.jpg…6.jpg) ---------- */
+/* ---------- photos ---------- */
 const photoSlots = [];
 function photoCard(i, fallbackTitle, fallbackSub, w=.5, h=.62){
   const mat = new THREE.MeshStandardMaterial({ roughness:.6 });
@@ -841,7 +839,7 @@ function openLaptop(onOpen){
   flying = true; $("#tip").classList.remove("on");
   document.body.classList.add("hide-ui"); if (person) person.visible = false;
   goalPos.set(...POSES.laptop.p); goalTgt.set(...POSES.laptop.t);
-  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=8";
+  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=9";
   const whenReady = cb => { if (frameReady(fr)) cb(); else fr.addEventListener("load", () => setTimeout(cb, 300), { once:true }); };
   setTimeout(() => { $("#mac").classList.add("open"); $("#mac").setAttribute("aria-hidden","false"); macOpen = true; flying = false; $("#back").focus();
     whenReady(() => { if (onOpen) onOpen(); else { try { fr.contentWindow.tourHide(); } catch(e){} } }); }, reduce ? 0 : 1300);
