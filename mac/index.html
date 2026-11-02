@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=9">
+<link rel="stylesheet" href="css/motion.css?v=10">
 <style>
 :root{
   --ink:#1d1d1f; --ink-2:#55555c; --ink-3:#8a8a92; --line:rgba(0,0,0,.08);
@@ -208,69 +208,6 @@ button,input,textarea{font:inherit;color:inherit}
 .yr-card h3{font:400 24px/1.1 var(--serif);margin:0 0 8px}
 .quote{display:flex;gap:10px;align-items:center;margin-top:14px;padding:12px 14px;border-radius:12px;background:#f7f7f9}
 .quote q{flex:1;font:400 19px/1.3 var(--serif)}
-
-/* ---------- FocusSpace ---------- */
-.yt{display:flex;flex-direction:column;height:100%}
-.yt-top{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-.yt-top .brand{display:flex;align-items:center;gap:7px;font-weight:700}
-.yt-top .brand img{width:22px;height:22px;border-radius:5px}
-.space{font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--ink);color:#fff}
-.yt-top .sp{flex:1}
-.stat{font-size:12.5px;color:var(--ink-2);padding:8px 14px;background:#fafafa;border-bottom:1px solid var(--line)}
-.stat b{color:var(--ink)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;padding:14px}
-.vid{border:0;background:none;text-align:left;padding:0;cursor:pointer;transition:opacity .35s,filter .35s,transform .35s;position:relative}
-.thumb{aspect-ratio:16/9;border-radius:10px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:8px;color:#fff;font-weight:800;font-size:15px;line-height:1.1;text-shadow:0 1px 6px rgba(0,0,0,.35)}
-.thumb .dur{position:absolute;right:6px;bottom:6px;font-size:11px;background:rgba(0,0,0,.75);padding:1px 5px;border-radius:4px;font-weight:600;text-shadow:none}
-.vid .vt{font-size:13px;font-weight:600;margin:7px 0 1px;line-height:1.3}
-.vid .vc{font-size:12px;color:var(--ink-3)}
-.vid .stamp{position:absolute;inset:0 0 auto 0;aspect-ratio:16/9;display:grid;place-items:center;padding:10px;text-align:center;border-radius:10px;background:rgba(255,255,255,.86);color:var(--red);font-size:12.5px;font-weight:700;opacity:0;transition:opacity .35s}
-.vid.out{opacity:.55;filter:grayscale(1)}
-.vid.out .stamp{opacity:1}
-.vid .score{position:absolute;left:6px;top:6px;font-size:11px;font-weight:700;padding:2px 6px;border-radius:5px;background:rgba(255,255,255,.92);color:var(--ink)}
-.explain{margin:0 14px 14px;padding:14px;border-radius:12px;background:#fff8e6;border:1px solid #ffe3a1;font-size:13.5px}
-.qs{margin:0 14px 14px;padding:14px;border-radius:12px;border:1px solid var(--line)}
-.qbar{display:flex;gap:6px;margin:10px 0}
-.qbar span{flex:1;height:8px;border-radius:99px;background:#eee;transition:background .3s}
-.qbar span.on{background:var(--green)}
-.students{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-.stu{font-size:12.5px;padding:6px 10px;border-radius:12px 12px 12px 4px;background:#f1f1f4;animation:pop .25s}
-@keyframes pop{from{transform:scale(.8);opacity:0}}
-
-/* ---------- Play2Place ---------- */
-.game{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;min-height:100%;padding:22px;background:linear-gradient(180deg,#f4f2ff,#fff)}
-.hud{display:flex;gap:10px;justify-content:center}
-.hud div{background:#fff;border:1px solid #e5e1ff;border-radius:12px;padding:8px 14px;min-width:84px}
-.hud b{display:block;font-size:22px;line-height:1.1}
-.hud span{font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-.bubbles{position:relative;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:16px 0;min-height:130px;align-items:center}
-.bub{width:112px;height:112px;border-radius:50%;border:0;cursor:pointer;font:700 22px var(--sans);color:#2b1f7a;background:radial-gradient(circle at 30% 28%,#fff 0 12%,#d9d3ff 13% 60%,#b8adff 100%);box-shadow:0 10px 24px rgba(91,72,230,.25);transition:transform .15s,opacity .25s;animation:float 3s ease-in-out infinite}
-.bub:nth-child(2){animation-delay:-1s}.bub:nth-child(3){animation-delay:-2s}
-.bub:hover{transform:scale(1.06)}
-.bub.done{opacity:.25;pointer-events:none}
-.bub.bad{background:radial-gradient(circle at 30% 28%,#fff 0 12%,#ffd1d1 13% 60%,#ff9c9c 100%)}
-@keyframes float{50%{translate:0 -6px}}
-.howto{font-size:13px;color:var(--ink-2);min-height:20px}
-.bar{width:min(360px,100%);height:6px;border-radius:9px;background:#e9e6ff;overflow:hidden}
-.bar i{display:block;height:100%;background:#7c6cf2;transition:width .25s linear}
-
-/* ---------- Upgrade Gate ---------- */
-.gate-body{padding:20px 22px}
-.verdict{display:flex;align-items:center;gap:14px;padding:16px;border-radius:14px;margin:14px 0;transition:background .3s}
-.verdict .big{font:800 34px/1 var(--sans);letter-spacing:-.02em;white-space:nowrap}
-.verdict.go{background:#e8f7ee}.verdict.go .big{color:var(--green)}
-.verdict.wait{background:#f4f4f6}.verdict.wait .big{color:var(--ink-3)}
-.verdict.inc{background:#fff6e0}.verdict.inc .big{color:#b7791f}
-.verdict.no{background:#ffecec}.verdict.no .big{color:var(--red)}
-.verdict small{display:block;color:var(--ink-2)}
-.prog{height:8px;border-radius:9px;background:#eee;overflow:hidden;margin:8px 0}
-.prog i{display:block;height:100%;width:0;background:#1d6b58}
-.ans{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
-.ans td,.ans th{padding:8px;border-bottom:1px solid var(--line);text-align:left}
-.ans th{font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
-.ans .x{color:var(--red);font-weight:700}.ans .ok{color:var(--green);font-weight:700}
-mark{background:#fff0a8;padding:0 3px;border-radius:3px}
-.shot{width:100%;border-radius:10px;border:1px solid var(--line);margin-top:10px}
 
 /* ---------- Campaign ---------- */
 .camp textarea,.camp input{width:100%;font:15px var(--sans);padding:10px 12px;border-radius:10px;border:1px solid #ddd;background:#fff;color:var(--ink)}
@@ -662,6 +599,40 @@ mark{background:#fff0a8;padding:0 3px;border-radius:3px}
 .idea-meta div{font-size:12.5px;color:var(--ink-2);padding:9px 11px;border-radius:10px;background:#f7f6f2}
 .idea-meta b{display:block;font-size:11.5px;color:var(--ink);margin-bottom:2px}
 @media (max-width:720px){.idea-meta{grid-template-columns:1fr}}
+
+/* ---------- my products ---------- */
+.prod{padding:22px 26px 28px}
+.prod-top{display:flex;align-items:center;gap:14px}
+.prod-top .ic,.prod-logo{width:52px;height:52px;border-radius:12px;object-fit:contain;flex:none}
+.prod-top small{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--pc)}
+.prod-top h2{margin:0;font:400 32px/1.05 var(--serif)}
+.prod-lede{font-size:16px;color:var(--ink-2);margin:10px 0 14px}
+.prod-shot{margin:0;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#f5f5f7;box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.prod-shot img{display:block;width:100%;height:auto;animation:blur-in .5s var(--ease-out)}
+.prod-shot figcaption{font-size:12.5px;color:var(--ink-3);padding:8px 12px;border-top:1px solid var(--line);background:#fff}
+.prod-thumbs{display:flex;gap:8px;margin:10px 0 16px}
+.prod-thumbs button{width:96px;height:58px;padding:0;border-radius:9px;overflow:hidden;border:2px solid transparent;cursor:pointer;opacity:.7;transition:opacity .2s,border-color .2s,scale .4s var(--spring-snap)}
+.prod-thumbs button.on{border-color:var(--pc);opacity:1}.prod-thumbs button:active{scale:.95}
+.prod-thumbs img{width:100%;height:100%;object-fit:cover;object-position:top}
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.prod-grid div,.prod-change{font-size:13.5px;color:var(--ink-2);padding:12px 14px;border-radius:12px;background:#f7f6f2;line-height:1.5}
+.prod-grid b,.prod-change b{display:block;color:var(--ink);font-size:12px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:4px}
+.prod-change{margin-top:10px;background:#fff;border:1px dashed color-mix(in srgb,var(--pc) 45%,#fff)}
+@media (max-width:720px){.prod-grid{grid-template-columns:1fr}}
+
+/* ---------- how I use Wispr Flow ---------- */
+.wf.use{display:block;height:auto;padding:24px 28px 28px;overflow:visible}
+.wf-head{display:flex;align-items:center;gap:14px}
+.wf-head img{width:48px;height:48px;border-radius:12px}
+.wf-head small{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#7c6cf2}
+.wf-head h1{margin:0;font:400 32px/1.05 var(--serif)}
+.wf.use .wf-sub{margin:10px 0 16px}
+.wf-h{font-size:13.5px;margin:18px 0 10px}
+.wf-uses{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:12px}
+.wf-uses div{background:#fff;border:1px solid #ece9e2;border-radius:14px;padding:12px 14px}
+.wf-uses i{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#1d1828;color:#fff;font:700 11.5px var(--sans);font-style:normal;margin-bottom:6px}
+.wf-uses b{display:block;font-size:13.5px}.wf-uses span{font-size:12.5px;color:var(--ink-2);line-height:1.4}
+@media (max-width:720px){.wf.use .wf-stats{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -700,7 +671,7 @@ mark{background:#fff0a8;padding:0 3px;border-radius:3px}
 <div class="notif" id="notif" role="status"><span class="ic i-notes"></span><div><b>Welcome to my Mac</b><span>Start with Notes, or tap the Wispr Flow icon in the Dock to see how I built this by voice.</span></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/songs.js?v=9"></script>
+<script src="js/songs.js?v=10"></script>
 <script>
 /* ============ helpers (shared with the app builders) ============ */
 const $ = (s, r=document) => r.querySelector(s);
@@ -740,13 +711,13 @@ const APPS = [
   { id:"mail", name:"Mail", w:620, h:520 },
   { id:"music", name:"Music", w:900, h:560 },
   { sep:true },
-  { id:"made", name:"Wispr Flow", w:940, h:640 },
+  { id:"made", name:"How I use Wispr Flow", w:940, h:680 },
   { id:"story", name:"How I built this", w:900, h:620, hidden:true },
   { id:"build", name:"Build with voice", w:980, h:680 },
   { id:"ai", name:"My AI Toolkit", w:860, h:660 },
-  { id:"fs", name:"FocusSpace", w:860, h:640 },
-  { id:"p2p", name:"Play2Place", w:560, h:600 },
-  { id:"gate", name:"Upgrade Gate", w:660, h:640 },
+  { id:"fs", name:"FocusSpace", w:900, h:680 },
+  { id:"p2p", name:"Play2Place", w:900, h:680 },
+  { id:"gate", name:"Upgrade Gate", w:900, h:680 },
   { id:"ideas", name:"Ideas for Flow", w:820, h:660 },
   { id:"camp", name:"Say the Full Idea", w:640, h:660 },
   { sep:true },
@@ -851,11 +822,11 @@ BUILD.notes = (el, win) => {
       <p class="tl"><b>2024</b> Networks, OS, DBMS and architecture in one semester. Being tired is not the same as being done.</p>
       <p class="tl"><b>2026</b> I decided to change how I communicate and how I learn, and started shipping real products.</p>
       <p class="tl"><b>Now</b> T-shaped: wide enough to explain most things, digging deep on what I build.</p>` },
-    { t:"Mistakes I learned from", d:"the honest part", s:"105 of 270, and a fake +1.13", body:`
+    { t:"Mistakes I learned from", d:"the honest part", s:"A clue isn't proof. A score isn't the truth.", body:`
       <h1>Mistakes I learned from</h1>
-      <p><b>FocusSpace, v1.</b> My relevance engine called 105 of 270 videos "relevant" to AI/ML. "My New Laptop for AI" got in because the word "ai" alone passed. I rewrote it so a keyword is evidence, not a verdict. <button class="lk" data-app="fs">See before/after →</button></p>
-      <p><b>Upgrade Gate.</b> My scorer said the new model was +1.13 points better on Hindi. It was rejecting correct spellings like <i>Somwar</i> vs <i>Somvar</i>. After the fix: 0.00. <button class="lk" data-app="gate">Find the bug yourself →</button></p>
-      <p>Lesson I keep relearning: read the answers before you trust the number.</p>` },
+      <p><b>FocusSpace.</b> My first version trusted the words in a video's title, so a laptop review got in just because it said “AI”. Lesson: a clue isn't proof. Look at what's really there. <button class="lk" data-app="fs">See FocusSpace →</button></p>
+      <p><b>Upgrade Gate.</b> My own test said a new AI model was better at Hindi. It wasn't. My test was marking correct spellings as wrong. Lesson: a score isn't the truth until you read the real answers. <button class="lk" data-app="gate">See Upgrade Gate →</button></p>
+      <p><b>What this means for growth.</b> A number can look great and still be wrong. Before I celebrate a metric, I look at what real people actually did.</p>` },
     { t:"What I'd do at Wispr", d:"week one", s:"Ideas, a small test, one campaign", body:`
       <h1>What I'd do at Wispr</h1>
       <ul><li><b>Bring my ideas for Flow.</b> Six things I'd love as a daily user: reminders from meetings, notes from any link, and more. Each one builds on something Flow already has. <button class="lk" data-app="ideas">See them →</button></li>
@@ -900,6 +871,7 @@ BUILD.safari = (el) => {
     play2place:{ url:"play2place.online", icon:ICON.p2p, kick:"Placement practice · live", col:"#5b48e6", title:"Play smart. Place better.", text:"Company-by-company practice for campus placement tests: Accenture, TCS, Wipro, Capgemini and more. Ten game engines, timed mocks, live contests twice a week, and a step-by-step “show me how” for every wrong answer. ₹49 a month; learning mode is free.", live:"https://play2place.online", demo:"p2p" },
     upgradegate:{ url:"web-production-00176.up.railway.app", icon:ICON.gate, kick:"Hackathon build · solo", col:"#1d6b58", title:"Should this app upgrade its AI model?", text:"Upgrade Gate replays an app's real tasks on two model versions and returns GO, NO-GO or INCONCLUSIVE, with the evidence attached. My own scorer once invented a +1.13 Hindi improvement. Reading the answers fixed it.", live:"https://web-production-00176.up.railway.app", demo:"gate", shot:"assets/upgrade-gate-report.jpg" }
   };
+  S.focusspace.shot = "assets/products/fs-spaces.jpg"; S.play2place.shot = "assets/products/p2p-vault.jpg"; S.upgradegate.shot = "assets/products/gate-hero.jpg";
   el.style.overflow = "hidden";
   el.innerHTML = `<div class="saf"><div class="saf-bar"><button id="sback" aria-label="Back">‹</button><input id="surl" value="Favourites" readonly aria-label="Address"></div><div class="saf-page" id="spage"></div></div>`;
   const page = $("#spage", el);
@@ -912,8 +884,8 @@ BUILD.safari = (el) => {
     $$("[data-ext]", page).forEach(b => b.onclick = () => window.open(b.dataset.ext, "_blank", "noopener")); };
   const site = k => { const s = S[k]; $("#surl", el).value = s.url; setTimeout(() => $$("[data-live]", page).forEach(b => b.onclick = () => (LIVE[b.dataset.live] ? openLive(b.dataset.live) : window.open(s.live, "_blank", "noopener"))), 0);
     page.innerHTML = `<div class="site"><div class="kick" style="color:${s.col}">${s.kick}</div><h1>${s.title}</h1><p>${s.text}</p>
-      <div class="row" style="margin-top:18px"><button class="btn" style="background:${s.col}" data-live="${s.demo}">Open the live site ↗</button><button class="btn ghost" data-app="${s.demo}">Try the demo here</button>${s.second?`<a class="btn ghost" href="${s.second[1]}" target="_blank" rel="noopener">${s.second[0]} ↗</a>`:""}</div>
-      ${s.shot?`<img class="shot" src="${s.shot}" alt="Upgrade Gate report">`:""}</div>`; };
+      <div class="row" style="margin-top:18px"><button class="btn" style="background:${s.col}" data-live="${s.demo}">Open the live site ↗</button><button class="btn ghost" data-app="${s.demo}">See the story</button>${s.second?`<a class="btn ghost" href="${s.second[1]}" target="_blank" rel="noopener">${s.second[0]} ↗</a>`:""}</div>
+      ${s.shot?`<img class="shot" src="${s.shot}" alt="Screenshot of ${s.url}">`:""}</div>`; };
   $("#sback", el).onclick = home; home();
 };
 
@@ -938,139 +910,52 @@ BUILD.atm = (el) => { el.innerHTML = `<div class="atm"><img class="big" src="pho
   <p class="small muted" style="margin-top:14px">Wallpaper: Golden Gate Bridge from Marshall's Beach, photo by Frank Schulenburg, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>
   <div class="row" style="justify-content:center;margin-top:18px"><button class="btn blue" data-app="mail">Contact</button><button class="btn ghost" data-app="notes">More info…</button></div></div>`; };
 
-BUILD.fs = (el) => {
-  const V = [
-    {t:"Transformers, L6: attention, explained", c:"Lecture series · 3 yrs ago", col:["#1e3a8a","#3b82f6"], d:"42:10", v1:.71, v2:.92, why2:"Topic phrase + a lecture cue → Excellent."},
-    {t:"My New Laptop for AI", c:"Tech vlog · 2 days ago", col:["#6b7280","#9ca3af"], d:"9:12", v1:.66, v2:0, why1:"“ai” alone was worth 2 points. Enough to pass.", why2:"Only the broad word “ai”. Broad words can't pass alone any more."},
-    {t:"Backpropagation from scratch", c:"Course · 1 yr ago", col:["#065f46","#10b981"], d:"28:44", v1:.58, v2:.88, why2:"Specific topic + teaching cue."},
-    {t:"AI news this week: 10 launches", c:"News · 5 hours ago", col:["#9a3412","#f97316"], d:"14:02", v1:.81, v2:0, why1:"Brand new, and recency was 35% of the rank.", why2:"News penalty. New isn't the same as useful."},
-    {t:"LLMs vs LLM agents: what changes", c:"Explainer · 3 weeks ago", col:["#581c87","#a855f7"], d:"18:30", v1:.94, v2:.74, why1:"“llm” and “llms” counted twice. Inflated score.", why2:"Overlaps merged. Still relevant, fairly scored."},
-    {t:"Weekend in Goa | vlog", c:"A channel that says “neural networks” in every description", col:["#0e7490","#22d3ee"], d:"12:51", v1:.62, v2:0, why1:"The channel's description boilerplate matched.", why2:"Boilerplate stripped. Nothing on-topic left."},
-    {t:"Gradient descent, lecture 4", c:"University course · 4 yrs ago", col:["#1f2937","#4b5563"], d:"51:03", v1:.44, v2:.86, why1:"Old upload, so recency pushed it down.", why2:"Strong lesson ranks high, whatever its age."},
-    {t:"Reacting to AI memes", c:"Entertainment · 1 hour ago", col:["#be185d","#f472b6"], d:"8:20", v1:.77, v2:0, why1:"Fresh and says “AI”. v1 loved it.", why2:"Entertainment penalty."},
-    {t:"Linear regression: full course", c:"Course · 2 yrs ago", col:["#14532d","#22c55e"], d:"1:12:40", v1:.39, v2:.83, why2:"Learning cue + topic evidence."}
-  ];
-  el.innerHTML = `<div class="yt">
-    <div class="yt-top"><span class="brand"><img src="assets/focusspace.png" alt="">FocusSpace</span><span class="space">Space: AI / ML</span><span class="sp"></span>
-      <div class="seg" role="radiogroup" aria-label="Relevance engine"><button role="radio" data-v="1">v1 · my mistake</button><button role="radio" data-v="2" class="on">v2 · fixed</button></div></div>
-    <div class="stat" id="fsstat"></div>
-    <div class="grid" id="fsgrid"></div>
-    <div class="explain" id="fsexp">Tap any video to see why it's in or out. Then flip to <b>v1</b> to see what I got wrong.</div>
-    <div class="qs">
-      <div class="row" style="justify-content:space-between"><b>New today: students' questions</b><span class="chip live">Shipped 1 Nov</span></div>
-      <p class="small muted" style="margin:4px 0 0">Students ask from the course page. Similar questions get grouped. When three students ask the same thing, it goes to the creator, and one reply reaches everyone.</p>
-      <div class="students" id="stu"></div>
-      <div class="qbar" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div class="row"><button class="btn blue" id="ask">Ask as a student</button><span class="small" id="askmsg"></span></div>
-    </div>
-    <div class="pad" style="padding-top:0"><div class="row"><a class="btn" href="https://chromewebstore.google.com/detail/focusspace-intent-driven/ilakannjmakocgmilmndfojkaonbigkk" target="_blank" rel="noopener">Add to Chrome ↗</a><a class="btn ghost" href="https://focusspace.xyz" target="_blank" rel="noopener">focusspace.xyz ↗</a></div>
-    <p class="note">Illustrative feed. The real v1 test: on feeds from 18 channels, v1 marked 105 of 270 videos as relevant to AI/ML. That's why I rewrote it.</p></div>
-  </div>`;
-  let ver = 2;
-  const render = () => {
-    const sorted = [...V].sort((a,b)=>b["v"+ver]-a["v"+ver]);
-    $("#fsgrid", el).innerHTML = sorted.map(v=>{ const s=v["v"+ver]; const out = s < .5;
-      return `<button class="vid ${out?'out':''}" data-i="${V.indexOf(v)}"><div class="thumb" style="background:linear-gradient(135deg,${v.col[0]},${v.col[1]})"><span class="score">${out?'hidden':'score '+s.toFixed(2)}</span>${v.t.split(":")[0].slice(0,26)}<span class="dur">${v.d}</span></div><div class="stamp">${out ? (v.why2||"") : ""}</div><div class="vt">${v.t}</div><div class="vc">${v.c}</div></button>`; }).join("");
-    const shown = V.filter(v=>v["v"+ver]>=.5).length;
-    $("#fsstat", el).innerHTML = ver===1 ? `<b>v1 shows ${shown} of 9.</b> The laptop vlog, the meme video and the Goa vlog all got in. Old lessons sank.` : `<b>v2 shows ${shown} of 9.</b> A keyword is evidence, not a verdict. Real lessons rise, whatever their age.`;
-    $$(".vid", el).forEach(b => b.onclick = () => { const v = V[b.dataset.i]; $("#fsexp", el).innerHTML = `<b>${v.t}</b><br>v1: ${v.why1 || "Passed."} <br>v2: ${v.why2 || "Passed."}`; });
-  };
-  $$(".seg button", el).forEach(b => b.onclick = () => { ver = +b.dataset.v; $$(".seg button", el).forEach(x=>{x.classList.toggle("on", x===b); x.setAttribute("aria-checked", x===b);}); render(); });
-  render();
-  const asks = ["Why does attention need a softmax?","why softmax in attention??","Sir, softmax in attention, why?"]; let k=0;
-  $("#ask", el).onclick = () => {
-    if (k >= 3) { k = 0; $("#stu", el).innerHTML=""; $$(".qbar span", el).forEach(s=>s.classList.remove("on")); $("#askmsg", el).textContent=""; $("#ask", el).textContent="Ask as a student"; return; }
-    $("#stu", el).appendChild(h(`<span class="stu">Student ${k+1}: ${asks[k]}</span>`));
-    $$(".qbar span", el)[k].classList.add("on"); k++;
-    $("#askmsg", el).textContent = k<3 ? `Grouped as one question · ${k} of 3` : "Sent to the creator. One reply reaches all three. ✓";
-    if (k===3) $("#ask", el).textContent = "Reset";
-  };
+/* ---- My products: real screenshots of the live sites, and what each one taught me ---- */
+const PRODUCTS = {
+  fs: { name:"FocusSpace", kick:"Chrome extension · live", col:"#d93025", logo:"assets/focusspace.png",
+    lede:"YouTube, but only for what you came to learn.",
+    shots:[["assets/products/fs-hero.jpg","The FocusSpace home page"],["assets/products/fs-spaces.jpg","A UPSC Space: YouTube with a step-by-step path"]],
+    problem:"I opened YouTube to study and lost hours to recommendations.",
+    who:"Students preparing for UPSC, NEET or JEE, or learning a new skill.",
+    learned:"People don't want YouTube blocked. They want a clear path. So every goal gets its own Space, with the next step always in view.",
+    changed:"My first version judged videos by the words in their titles, so a laptop review slipped in just because it said “AI”. A word in a title is a clue, not proof. Now it looks at what the video is really about.",
+    live:()=>openLive("fs"), liveLabel:"Open focusspace.xyz ↗",
+    second:["Chrome Web Store ↗","https://chromewebstore.google.com/detail/focusspace-intent-driven/ilakannjmakocgmilmndfojkaonbigkk"] },
+  p2p: { name:"Play2Place", kick:"Placement practice · live", col:"#5b48e6", logo:"assets/play2place.png",
+    lede:"Placement practice that feels like a game.",
+    shots:[["assets/products/p2p-hero.jpg","Play smart. Place better."],["assets/products/p2p-vault.jpg","One vault for every company: 4,205 problems from 741 companies"],["assets/products/p2p-companies.jpg","Each company's real test, as games"]],
+    problem:"My friends were scared of placement tests, and nobody knew what each company actually asks.",
+    who:"Final-year students in India preparing for TCS, Infosys, Accenture, Capgemini and more.",
+    learned:"Students come back for a reason: a contest date, a streak, their dream company. So the site is built around companies and contests, not a plain question bank.",
+    changed:"Today it has company-style mock tests, live contests with prizes, 4,205 problems from 741 companies, and free revision notes.",
+    live:()=>openLive("p2p"), liveLabel:"Open play2place.online ↗" },
+  gate: { name:"Upgrade Gate", kick:"Hackathon build · solo", col:"#1d6b58", logo:"",
+    lede:"Before an app switches to a newer AI model, check it won't quietly break things.",
+    shots:[["assets/products/gate-hero.jpg","Test the upgrade. Choose the route."],["assets/products/gate-decisions.jpg","One gate, three decisions on the same upgrade"]],
+    problem:"A newer AI model can look better on average and still get the important answers wrong, like a customer's order number.",
+    who:"Teams that ship AI features and want to upgrade safely.",
+    learned:"A good-looking score can hide real mistakes. I read the actual answers before I trust a number, and that goes for growth numbers too.",
+    changed:"Halfway through, my own test said the new model was better at Hindi. It wasn't: my test was marking correct spellings like Somwar and Somvar as wrong. Fixing the test changed the answer.",
+    live:()=>window.open("https://web-production-00176.up.railway.app","_blank","noopener"), liveLabel:"Open the live site ↗" }
 };
-
-/* ---- Play2Place: Bubble Math ---- */
-BUILD.p2p = (el, win) => {
-  el.innerHTML = `<div class="game">
-    <span class="chip live">Live · play2place.online</span>
-    <h2 class="h" style="margin-top:6px">Bubble Math</h2>
-    <p class="muted small" style="margin:0;max-width:40ch">A real round type from campus placement tests. Tap the bubbles from <b>lowest to highest</b> value. 45 seconds.</p>
-    <div class="hud"><div><span>Score</span><b id="sc">0</b></div><div><span>Time</span><b id="tm">45</b></div><div><span>Best</span><b id="bs">0</b></div></div>
-    <div class="bar"><i id="tbar" style="width:100%"></i></div>
-    <div class="bubbles" id="bb"><button class="btn" id="start" style="padding:14px 26px;font-size:16px;background:#7c6cf2">Start the round</button></div>
-    <div class="howto" id="how" aria-live="polite"></div>
-    <p class="small muted" style="max-width:44ch;margin:8px 0 0">My friends were practising from random PDFs. Play2Place has 10 game engines for Accenture, TCS, Wipro and more, plus live contests twice a week. ₹49 a month, and learning mode is free.</p>
-    <a class="btn ghost" href="https://play2place.online" target="_blank" rel="noopener">Play the full version ↗</a>
-  </div>`;
-  let score=0, left=45, timer=null, order=[], step=0, best=+(sessionStorage.getItem("p2pbest")||0);
-  $("#bs", el).textContent = best;
-  const rnd = (a,b) => a + Math.floor(Math.random()*(b-a+1));
-  const make = () => { const op = rnd(0,3); let a,b,v,t;
-    if (op===0){a=rnd(4,40);b=rnd(3,30);v=a+b;t=`${a} + ${b}`}
-    else if(op===1){a=rnd(20,60);b=rnd(2,19);v=a-b;t=`${a} − ${b}`}
-    else if(op===2){a=rnd(2,12);b=rnd(2,9);v=a*b;t=`${a} × ${b}`}
-    else {b=rnd(2,9);v=rnd(2,12);a=b*v;t=`${a} ÷ ${b}`}
-    return {t,v}; };
-  const round = () => { let items; do { items=[make(),make(),make()]; } while (new Set(items.map(i=>i.v)).size<3);
-    order = [...items].sort((a,b)=>a.v-b.v); step=0;
-    $("#bb", el).innerHTML = items.map(i=>`<button class="bub" data-v="${i.v}" aria-label="${i.t}">${i.t}</button>`).join("");
-    $$(".bub", el).forEach(b => b.onclick = () => {
-      if (+b.dataset.v === order[step].v) { b.classList.add("done"); step++; if (step===3){ score++; $("#sc", el).textContent=score; $("#how", el).textContent = ["Nice.","Sharp.","Keep going.","On fire."][Math.min(3,Math.floor(score/3))]; setTimeout(round, 180);} }
-      else { b.classList.add("bad"); $("#how", el).innerHTML = `Show me how: ${order.map(o=>`${o.t.replace(/ /g,'')} = <b>${o.v}</b>`).join(" → ")}`; setTimeout(round, 1300); }
-    });
+function productApp(id){
+  return (el) => {
+    const P = PRODUCTS[id];
+    const logo = P.logo ? `<img class="prod-logo" src="${P.logo}" alt="">` : ICON[id];
+    el.innerHTML = `<div class="prod" style="--pc:${P.col}">
+      <div class="prod-top">${logo}<div><small>${P.kick}</small><h2>${P.name}</h2></div></div>
+      <p class="prod-lede">${P.lede}</p>
+      <figure class="prod-shot"><img id="pshot" src="${P.shots[0][0]}" alt="${P.shots[0][1]}"><figcaption id="pcap">${P.shots[0][1]}</figcaption></figure>
+      <div class="prod-thumbs">${P.shots.map((x,n) => `<button data-n="${n}" class="${n?"":"on"}" aria-label="${x[1]}"><img src="${x[0]}" alt=""></button>`).join("")}</div>
+      <div class="prod-grid"><div><b>The problem</b>${P.problem}</div><div><b>Who it's for</b>${P.who}</div><div><b>What I learned</b>${P.learned}</div></div>
+      <div class="prod-change"><b>What changed along the way</b>${P.changed}</div>
+      <div class="row" style="margin-top:16px"><button class="btn" id="plive" style="background:${P.col}">${P.liveLabel}</button>${P.second ? `<a class="btn ghost" href="${P.second[1]}" target="_blank" rel="noopener">${P.second[0]}</a>` : ""}</div>
+    </div>`;
+    $$(".prod-thumbs button", el).forEach(b => b.onclick = () => { const x = P.shots[+b.dataset.n]; $("#pshot", el).src = x[0]; $("#pshot", el).alt = x[1]; $("#pcap", el).textContent = x[1]; $$(".prod-thumbs button", el).forEach(t => t.classList.toggle("on", t === b)); });
+    $("#plive", el).onclick = P.live;
   };
-  const end = () => { clearInterval(timer); timer=null; if (score>best){best=score; try{sessionStorage.setItem("p2pbest",best)}catch(e){} $("#bs", el).textContent=best;}
-    $("#bb", el).innerHTML = `<div><div class="h">${score} rounds</div><p class="muted small">${score>=8?"You'd clear this round. Want the real mock?":"Placement tests are harder under a timer. That's the point of practising."}</p><button class="btn" id="again" style="background:#7c6cf2">Play again</button></div>`;
-    $("#again", el).onclick = start; };
-  const start = () => { score=0; left=45; $("#sc", el).textContent=0; $("#how", el).textContent=""; round();
-    timer = setInterval(()=>{ left--; $("#tm", el).textContent=left; $("#tbar", el).style.width=(left/45*100)+"%"; if(left<=0) end(); },1000); };
-  $("#start", el).onclick = start;
-  win._cleanup = () => clearInterval(timer);
-};
-
-/* ---- Upgrade Gate ---- */
-BUILD.gate = (el, win) => {
-  el.innerHTML = `<div class="gate-body">
-    <span class="chip live">Live · built solo at a hackathon</span>
-    <h2 class="h" style="margin-top:8px">Should this app <i>upgrade</i> its AI model?</h2>
-    <p class="muted" style="margin:0">VoiceOrder takes shop orders from voice notes in Hindi, Hinglish and English. Upgrade Gate replays real tasks on the old and new model and decides GO or NO-GO.</p>
-    <div class="verdict wait" id="vd"><div class="big">—</div><div><b>Not run yet</b><small>1,325 tasks × 2 model versions × 3 repeats</small></div></div>
-    <div class="prog" aria-hidden="true"><i id="pg"></i></div>
-    <div class="row" id="acts"><button class="btn" id="run" style="background:#1d6b58">Run the gate</button></div>
-    <div id="more"></div>
-  </div>`;
-  const vd = $("#vd", el), acts = $("#acts", el), more = $("#more", el);
-  const setV = (cls, big, t, s) => { vd.className = "verdict " + cls; vd.innerHTML = `<div class="big">${big}</div><div><b>${t}</b><small>${s}</small></div>`; };
-  let tmr;
-  $("#run", el).onclick = () => {
-    acts.innerHTML = ""; let p=0;
-    tmr = setInterval(()=>{ p+=4; $("#pg", el).style.width=p+"%"; if(p>=100){ clearInterval(tmr);
-      setV("go","+1.13","New model looks better. Ship it?","+1.13 points on Hindi tasks · p = 0.00006");
-      acts.innerHTML = `<button class="btn blue" id="read">Wait. Read the answers first</button><button class="btn ghost" id="ship">Ship it</button>`;
-      $("#ship", el).onclick = () => toast("That's what I almost did. Read the answers first.");
-      $("#read", el).onclick = readAnswers; } }, 40);
-  };
-  const readAnswers = () => {
-    acts.innerHTML = "";
-    more.innerHTML = `<p style="margin:12px 0 4px"><b>Old model answers my scorer marked wrong:</b> can you spot the problem?</p>
-      <table class="ans"><tr><th>Asked for</th><th>Expected</th><th>Old model said</th><th>Scorer</th></tr>
-      <tr><td>Delivery day</td><td>Somwar</td><td><mark>Somvar</mark></td><td class="x">✗</td></tr>
-      <tr><td>Delivery day</td><td>Guruwar</td><td><mark>Guruvar</mark></td><td class="x">✗</td></tr>
-      <tr><td>Order note</td><td>Ek kilo chawal</td><td><mark>Order: Ek kilo chawal</mark></td><td class="x">✗</td></tr></table>
-      <div class="row"><button class="btn blue" id="fix">They're correct. Fix my scorer</button></div>`;
-    $("#fix", el).onclick = () => {
-      $$(".ans .x", el).forEach(td=>{td.className="ok"; td.textContent="✓";});
-      setV("inc","0.00","The improvement disappears","My scorer was rejecting correct Hindi spellings. The gain was my bug.");
-      $("#fix", el).remove();
-      more.insertAdjacentHTML("beforeend", `<div class="row" style="margin-top:10px"><button class="btn" id="voice" style="background:#1d6b58">Now rerun with a real human voice</button></div>`);
-      $("#voice", el).onclick = () => {
-        setV("no","NO-GO","Don't upgrade","With a real voice, accuracy fell 11 points, and blank answers appeared only on the new model.");
-        more.innerHTML = `<div class="card" style="margin-top:12px"><b>What I learned:</b> read the answers before you trust the p-value. Indian spellings break tools in quiet ways, so now I always test with real Indian data.</div>
-          <img class="shot" src="assets/upgrade-gate-report.jpg" alt="The real Upgrade Gate report for the voice-note run">
-          <div class="row" style="margin-top:12px"><a class="btn" href="https://web-production-00176.up.railway.app" target="_blank" rel="noopener">Open the live site ↗</a><button class="btn ghost" data-app="ideas">My ideas for Flow →</button></div>`;
-      };
-    };
-  };
-  win._cleanup = () => clearInterval(tmr);
-};
+}
+BUILD.fs = productApp("fs"); BUILD.p2p = productApp("p2p"); BUILD.gate = productApp("gate");
 
 /* ---- My AI toolkit: I can build anything with AI ---- */
 BUILD.ai = (el) => {
@@ -1294,30 +1179,24 @@ const FLOW = { words:102899, wpm:144, top:"0.2%", fixes:25541, corrected:16790, 
 BUILD.made = (el, win) => {
   const max = Math.max(...FLOW.week.map(x => x[1])), appMax = FLOW.apps[0][1];
   const fmt = n => n.toLocaleString("en-US");
-  el.style.overflow = "hidden";
-  el.innerHTML = `<div class="wf">
-    <aside class="wf-side"><div class="wf-brand"><img src="assets/wispr-flow-icon.png" alt="">Flow</div>
-      <button class="on" data-v="home">Home</button><button data-v="dict">Dictionary</button><button data-v="snip">Snippets</button><button data-v="style">Style</button><button data-v="notes">Notes</button><button data-v="meet">Notetaker</button>
-      <span class="sp"></span><button data-open="story">▶ How I built this</button><a href="https://wisprflow.ai" target="_blank" rel="noopener" class="wf-dl">Download Wispr Flow ↗</a></aside>
-    <main class="wf-main" id="wfm"></main></div>`;
-  const views = {
-    home: () => `<h1>Welcome back, Utsav</h1><p class="wf-sub">My real numbers from Wispr Flow's Insights, as of 2 Nov 2026.</p>
-      <div class="wf-stats"><div><b>${fmt(FLOW.words)}</b><span>words dictated. About one whole book.</span></div><div><b>${FLOW.wpm}</b><span>words per minute, top ${FLOW.top} of Flow users</span></div><div><b>${fmt(FLOW.fixes)}</b><span>fixes made by Flow (${fmt(FLOW.corrected)} words, ${fmt(FLOW.dictFixes)} dictionary)</span></div><div><b>${FLOW.streak} days</b><span>current streak · longest ${FLOW.longest} · ${FLOW.appsUsed} apps</span></div></div>
-      <section class="wf-card" style="margin-bottom:12px"><h3>What I dictate</h3>${FLOW.kinds.map(([k,n,pc]) => `<div class="wf-bar"><span>${k}</span><div><i style="width:${Math.max(2,pc)}%"></i></div><b>${n} · ${pc}%</b></div>`).join("")}<p class="wf-note">147 AI prompts: that's how I build. I say the full idea instead of typing a short one.</p></section>
-      <div class="wf-grid"><section class="wf-card"><h3>Words per day, last week</h3><div class="wf-chart">${FLOW.week.map(([d,w]) => `<div><i style="height:${Math.max(3, w/max*100)}%"></i><span>${d}</span></div>`).join("")}</div><p class="wf-note">1 Nov: ${fmt(6924)} words. That was the day I built this room by talking.</p></section>
+  const USES = [
+    ["Building with AI","I say the full idea to Claude and Codex instead of typing a short prompt. 147 of my dictations were AI prompts."],
+    ["The terminal","Commands, commit messages and quick notes, said out loud while I keep coding."],
+    ["Ideas and notes","Every idea lands in Flow notes first, before it becomes a build."],
+    ["Meetings","Notetaker keeps a summary of calls, so I can listen instead of scribbling."],
+    ["Messages","Quick replies to friends and teammates, in my own words."]
+  ];
+  el.innerHTML = `<div class="wf use">
+    <div class="wf-head"><img src="assets/wispr-flow-icon.png" alt=""><div><small>As a user, day 60</small><h1>How I use Wispr Flow</h1></div></div>
+    <p class="wf-sub">I'm not on the Wispr team. I'm a heavy user, and these are my real numbers from Flow's Insights on 2 Nov 2026.</p>
+    <div class="wf-stats"><div><b>${fmt(FLOW.words)}</b><span>words spoken. About one whole book.</span></div><div><b>${FLOW.wpm} wpm</b><span>top ${FLOW.top} of Flow users</span></div><div><b>${fmt(FLOW.fixes)}</b><span>fixes Flow made for me</span></div><div><b>${FLOW.streak} days</b><span>current streak · ${FLOW.appsUsed} apps</span></div></div>
+    <h3 class="wf-h">Where Flow fits in my day</h3>
+    <div class="wf-uses">${USES.map(([t,d],n) => `<div><i>${n+1}</i><b>${t}</b><span>${d}</span></div>`).join("")}</div>
+    <div class="wf-grid"><section class="wf-card"><h3>Words per day, last week</h3><div class="wf-chart">${FLOW.week.map(([d,w]) => `<div><i style="height:${Math.max(3, w/max*100)}%"></i><span>${d}</span></div>`).join("")}</div><p class="wf-note">1 Nov: ${fmt(6924)} words. That was the day I built this room by talking.</p></section>
       <section class="wf-card"><h3>Where the words went, last week</h3>${FLOW.apps.map(([a,w]) => `<div class="wf-bar"><span>${a}</span><div><i style="width:${w/appMax*100}%"></i></div><b>${fmt(w)}</b></div>`).join("")}<p class="wf-note">Mostly into Claude and Codex: I build by talking.</p></section></div>
-      <div class="row" style="margin-top:16px"><button class="btn" data-open="story">▶ Watch how I built this</button><a class="btn ghost" href="https://wisprflow.ai" target="_blank" rel="noopener">Download Wispr Flow ↗</a></div>`,
-    dict: () => `<h1>Dictionary</h1><p class="wf-sub">${fmt(FLOW.dictFixes)} dictionary fixes so far. I teach Flow my words every day, and I have an idea to make it even faster.</p><button class="btn" data-open="ideas">See my ideas for Flow →</button>`,
-    snip: () => `<h1>Snippets</h1><p class="wf-sub">Short cues that expand into text I repeat, like my email and links.</p><div class="wf-card"><div class="wf-snip"><b>“my email”</b> → utsav.udk@gmail.com</div><div class="wf-snip"><b>“my linkedin”</b> → linkedin.com/in/utsav-tech</div></div>`,
-    style: () => `<h1>Style</h1><p class="wf-sub">Casual in chats, clear and complete in prompts. Flow keeps my voice and drops the “um”s.</p><button class="btn" data-open="build">See how I build with it →</button>`,
-    notes: () => `<h1>Notes</h1><p class="wf-sub">Where ideas land before they become builds.</p><button class="btn" data-open="notes">Open my notes →</button>`,
-    meet: () => `<h1>Notetaker</h1><p class="wf-sub">${FLOW.meetings} meetings captured with Flow's Notetaker: summaries and questions I can ask later.</p><div class="wf-card"><p class="wf-note" style="margin:0">Meeting contents stay private. This only shows that I use it.</p></div>`
-  };
-  const show = v => { $$(".wf-side [data-v]", el).forEach(b => b.classList.toggle("on", b.dataset.v === v)); $("#wfm", el).innerHTML = views[v]();
-    $$("[data-open]", $("#wfm", el)).forEach(b => b.onclick = () => openApp(b.dataset.open)); };
-  $$(".wf-side [data-v]", el).forEach(b => b.onclick = () => show(b.dataset.v));
-  $$(".wf-side [data-open]", el).forEach(b => b.onclick = () => openApp(b.dataset.open));
-  show("home");
+    <div class="row" style="margin-top:16px"><button class="btn" data-open="story">Watch how I built this</button><button class="btn ghost" data-open="ideas">My ideas for Flow</button><a class="btn ghost" href="https://wisprflow.ai" target="_blank" rel="noopener">Try Wispr Flow ↗</a></div>
+  </div>`;
+  $$("[data-open]", el).forEach(b => b.onclick = () => openApp(b.dataset.open));
 };
 
 /* ---- Made with Flow: ideas in my head → Wispr Flow → words → Claude gives it shape ---- */

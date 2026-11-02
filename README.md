@@ -8,12 +8,12 @@ Press **"3-minute tour"** and it walks you through everything on its own: my yea
 
 ## What it is
 
-A 3D room you walk through by year: 2021, 2023, 2024, 2026, and now. I'm at the desk, and the MacBook on it opens into a working macOS with:
+A 3D room you walk through by year: 2021, 2023, 2024, 2026, and now. Use the cube button for an overview of the whole room. I'm at the desk, and the MacBook on it opens into a working macOS with:
 
 - **How I built this:** ideas in my head, spoken through Wispr Flow, shaped by Claude into this site
-- **My Wispr Flow:** my real numbers (102,899 words dictated, 144 wpm, top 0.2% of Flow users)
+- **How I use Wispr Flow:** where it fits in my day, with my real numbers as a user (102,899 words, 144 wpm, top 0.2%)
 - **My AI Toolkit:** the AI tools I build with, and what I make with them
-- **FocusSpace, Play2Place, Upgrade Gate:** products I've shipped, playable here
+- **FocusSpace, Play2Place, Upgrade Gate:** products I've shipped, with real screenshots and what each one taught me
 - **Ideas for Flow:** what I'd love next, as a daily user
 - **Say the Full Idea:** a growth campaign I'd run in India
 - **Notes, Photos, Messages, Mail and Music:** my story, my photos, and ways to reach me

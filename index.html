@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=9">
+<link rel="stylesheet" href="css/motion.css?v=10">
 <style>
 :root{
   --ink:#1f1c18; --ink-2:#4d4740; --ink-3:#7c746a;
@@ -251,6 +251,7 @@ body.touring .tagline{opacity:0;pointer-events:none}
 </section>
 
 <nav class="ui time" aria-label="Years">
+  <button class="round glass" id="overview" aria-label="See the whole room" title="See the whole room"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></button>
   <button class="round glass" id="home" aria-label="Back to the room"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg></button>
   <div class="years glass" id="years"></div>
 </nav>
@@ -268,7 +269,7 @@ body.touring .tagline{opacity:0;pointer-events:none}
 <div id="mac" aria-hidden="true"><iframe id="macframe" title="Utsav's laptop"></iframe></div>
 <button id="back">Back to the desk</button>
 
-<script src="js/songs.js?v=9"></script>
+<script src="js/songs.js?v=10"></script>
 <script>
 /* -------- one music player for the room and the laptop -------- */
 window.SharedPlayer = window.createPlayer();
@@ -459,6 +460,37 @@ const bench = mesh(new RoundedBoxGeometry(3.6,.42,.5,3,.02), benchM); bench.posi
 const cushion = mesh(new RoundedBoxGeometry(3.5,.1,.46,4,.045), M(0xe9e2d6,{ roughness:.95 })); cushion.position.set(1.95,.47,backZ+.3); scene.add(cushion);
 [[1.0,.0],[1.45,.2]].forEach(([x,r]) => { const pil = mesh(new RoundedBoxGeometry(.4,.36,.13,4,.06), M(r ? 0xb88a5c : 0x8e9b8a,{ roughness:1 })); pil.position.set(x+.9,.69,backZ+.18); pil.rotation.set(-.15,r,0); scene.add(pil); });
 
+/* trophies on the bench: what I've shipped so far */
+function plaqueTex(top, bottom){
+  return canvasTex(256, 96, (g, w, h) => { g.fillStyle = "#1c1a17"; g.fillRect(0,0,w,h);
+    g.fillStyle = "#e8c77a"; g.textAlign = "center"; g.font = "600 30px Inter, sans-serif"; g.fillText(top, w/2, 42);
+    g.fillStyle = "rgba(232,199,122,.75)"; g.font = "500 22px Inter, sans-serif"; g.fillText(bottom, w/2, 76); });
+}
+function trophy(kind, x, label, sub){
+  const gold = new THREE.MeshPhysicalMaterial({ color:0xe2b34c, metalness:1, roughness:.22, clearcoat:.6 });
+  const silver = new THREE.MeshPhysicalMaterial({ color:0xd7dbe0, metalness:1, roughness:.18, clearcoat:.6 });
+  const t = new THREE.Group(); t.position.set(x, .52 + .02, backZ + .3);
+  const base = mesh(new RoundedBoxGeometry(.13,.05,.1,3,.008), M(0x241f1a,{ roughness:.45 })); base.position.y = .025; t.add(base);
+  const plaque = new THREE.Mesh(new THREE.PlaneGeometry(.115,.043), new THREE.MeshBasicMaterial({ map:plaqueTex(label, sub), toneMapped:false })); plaque.position.set(0,.025,.0505); t.add(plaque);
+  if (kind === "cup"){
+    const pts = []; for (let k=0;k<=20;k++){ const v=k/20; pts.push(new THREE.Vector2(.012 + .045*Math.sin(v*Math.PI*.55)**1.4 + (v<.15 ? .018*(1-v/.15) : 0), v*.13)); }
+    const cupM = mesh(new THREE.LatheGeometry(pts, 40), gold); cupM.position.y = .09; t.add(cupM);
+    const stem = mesh(new THREE.CylinderGeometry(.008,.014,.04,16), gold); stem.position.y = .07; t.add(stem);
+    [-1,1].forEach(sd => { const h = mesh(new THREE.TorusGeometry(.024,.004,10,24,Math.PI), gold); h.position.set(sd*.05,.18,0); h.rotation.z = sd > 0 ? -Math.PI/2 : Math.PI/2; t.add(h); });
+  } else if (kind === "star"){
+    const shape = new THREE.Shape(); for (let k=0;k<10;k++){ const r = k%2 ? .022 : .05, a = k/10*Math.PI*2 + Math.PI/2; k ? shape.lineTo(Math.cos(a)*r, Math.sin(a)*r) : shape.moveTo(Math.cos(a)*r, Math.sin(a)*r); }
+    const star = mesh(new THREE.ExtrudeGeometry(shape, { depth:.012, bevelEnabled:true, bevelSize:.003, bevelThickness:.003, bevelSegments:2 }), silver); star.position.set(0,.16,-.006); t.add(star);
+    const post = mesh(new THREE.CylinderGeometry(.006,.006,.06,12), silver); post.position.y = .08; t.add(post);
+  } else {
+    const disc = mesh(new THREE.CylinderGeometry(.045,.045,.01,40), gold); disc.rotation.x = Math.PI/2; disc.position.y = .13; t.add(disc);
+    const ribbon = mesh(new THREE.BoxGeometry(.03,.07,.004), M(0x3b62b0,{ roughness:.6 })); ribbon.position.set(0,.065,0); t.add(ribbon);
+  }
+  scene.add(t);
+}
+trophy("cup",  .62, "SHIPPED", "FocusSpace");
+trophy("star", .86, "HACKATHON", "Upgrade Gate");
+trophy("medal",1.1, "SHIPPED", "Play2Place");
+
 /* the view outside: a painted sky that shows until the real photo loads */
 const viewTex = canvasTex(2048, 1024, (g, w, h) => {
   const sky = g.createLinearGradient(0,0,0,h); sky.addColorStop(0,"#9fbfdc"); sky.addColorStop(.45,"#f4d9bd"); sky.addColorStop(.62,"#ffc79a"); sky.addColorStop(1,"#f0b38c");
@@ -491,7 +523,7 @@ const rugTex = canvasTex(512,512,(g,w,h)=>{ g.fillStyle="#d8ccb8"; g.fillRect(0,
 const rug = mesh(new THREE.PlaneGeometry(3.4, 2.4), M(0xffffff,{ map:rugTex, roughness:1 }), false); rug.rotation.x=-Math.PI/2; rug.position.set(0,.005,-1.0); scene.add(rug);
 
 /* ---------- desk + laptop (procedural, exact sizes) ---------- */
-const deskTop = mesh(new RoundedBoxGeometry(1.7,.045,.78,3,.012), pbr("oak_veneer_01", 1.2, .6, { roughness:.8 }));
+const deskTop = mesh(new RoundedBoxGeometry(1.7,.045,.78,4,.016), pbr("oak_veneer_01", 1.2, .6, { roughness:.55, color:0xc49a72 }));
 deskTop.position.set(0,.75,-1.9); scene.add(deskTop);
 /* matte black steel frame: two sled-shaped side frames joined by a crossbar */
 const steelM = M(0x1d1d1f,{ roughness:.42, metalness:.55 });
@@ -504,7 +536,9 @@ const tube = (w,h,d,x,y,z) => { const t = mesh(new RoundedBoxGeometry(w,h,d,2,.0
 });
 tube(1.43,.045,.03, 0,.69,.3);                                         // front crossbar
 
-const laptop = new THREE.Group(); laptop.position.set(0,.773,-2.02); laptop.rotation.y = Math.PI;
+/* felt desk mat under the laptop */
+const deskMat = mesh(new RoundedBoxGeometry(.66,.004,.34,2,.0018), M(0x2b2a2e,{ roughness:1 })); deskMat.position.set(0,.7745,-2.0); scene.add(deskMat);
+const laptop = new THREE.Group(); laptop.position.set(0,.7765,-2.02); laptop.rotation.y = Math.PI;
 /* MacBook Air-style: one-piece aluminium, black keys, thin black bezel with a notch, glowing logo */
 const alu = new THREE.MeshPhysicalMaterial({ color:0xd4d6da, roughness:.28, metalness:.9, clearcoat:.3, clearcoatRoughness:.4 });
 const LW = .304, LD = .215;
@@ -562,8 +596,8 @@ const handle = mesh(new THREE.TorusGeometry(.024,.006,10,24,Math.PI), M(0xf4efe7
 scene.add(mug);
 
 /* a notebook + pen */
-const nb = mesh(new RoundedBoxGeometry(.16,.012,.22,2,.004), M(0x2f4a3f,{roughness:.7})); nb.position.set(-.45,.779,-1.78); nb.rotation.y=.25; scene.add(nb);
-const pen = mesh(new THREE.CylinderGeometry(.004,.004,.14,8), M(0x1d1d1f,{metalness:.5,roughness:.3})); pen.rotation.z=Math.PI/2; pen.rotation.y=.4; pen.position.set(-.42,.79,-1.72); scene.add(pen);
+const nb = mesh(new RoundedBoxGeometry(.16,.012,.22,2,.004), M(0x2f4a3f,{roughness:.7})); nb.position.set(-.38,.779,-2.1); nb.rotation.y=-.18; scene.add(nb);
+const pen = mesh(new THREE.CylinderGeometry(.004,.004,.14,8), M(0x1d1d1f,{metalness:.5,roughness:.3})); pen.rotation.z=Math.PI/2; pen.rotation.y=.4; pen.position.set(-.3,.79,-2.02); scene.add(pen);
 
 /* ---------- GLTF furniture (CC0, Poly Haven) ---------- */
 const manager = window.__mgr;
@@ -622,7 +656,23 @@ loader.load("models/modern_ceiling_lamp_01/modern_ceiling_lamp_01.gltf", g => {
   warm.castShadow = true; warm.shadow.mapSize.set(1024,1024); warm.shadow.bias = -.0004; scene.add(warm, warm.target);
   const glow = new THREE.PointLight(0xffd7a8, 1.2, 2.2); glow.position.set(0, bulbY - .05, -2.05); scene.add(glow);
 });
-place("alarm_clock_01", { pos:[.62,.773,-2.08], h:.09, rotY:-.4 });
+/* desk clock: shows the visitor's real time */
+const clockCanvas = document.createElement("canvas"); clockCanvas.width = 320; clockCanvas.height = 160;
+const clockTex = new THREE.CanvasTexture(clockCanvas); clockTex.colorSpace = THREE.SRGBColorSpace; clockTex.anisotropy = 8;
+function drawClock(){
+  const g = clockCanvas.getContext("2d"), d = new Date();
+  g.fillStyle = "#121214"; g.fillRect(0,0,320,160);
+  g.fillStyle = "#ffd9a8"; g.textAlign = "center"; g.font = "600 84px Inter, -apple-system, sans-serif";
+  g.fillText(d.toLocaleTimeString([], { hour:"2-digit", minute:"2-digit", hour12:false }), 160, 98);
+  g.fillStyle = "rgba(255,217,168,.6)"; g.font = "500 22px Inter, -apple-system, sans-serif";
+  g.fillText(d.toLocaleDateString([], { weekday:"short", day:"numeric", month:"short" }).toUpperCase(), 160, 136);
+  clockTex.needsUpdate = true;
+}
+drawClock(); setInterval(drawClock, 15000);
+const deskClock = new THREE.Group(); deskClock.position.set(.56,.7725,-2.12); deskClock.rotation.y = -.3;
+const clockBody = mesh(new RoundedBoxGeometry(.15,.085,.055,4,.012), M(0x8a5a3a,{ roughness:.5 })); clockBody.position.y = .0425; deskClock.add(clockBody);
+const clockFace = new THREE.Mesh(new THREE.PlaneGeometry(.128,.064), new THREE.MeshBasicMaterial({ map:clockTex, toneMapped:false })); clockFace.position.set(0,.0435,.0281); deskClock.add(clockFace);
+scene.add(deskClock);
 
 place("wooden_table_02", { pos:[2.9,0,-2.6], h:.5, rotY:.2 });
 
@@ -681,8 +731,9 @@ new GLTFLoader(manager).load("models/me/utsav.glb", gltf => {
 
 /* ---------- photos ---------- */
 const photoSlots = [];
-function photoCard(i, fallbackTitle, fallbackSub, w=.5, h=.62){
+function photoCard(i, fallbackTitle, fallbackSub, w=.5, h=.62, glow=0){
   const mat = new THREE.MeshStandardMaterial({ roughness:.6 });
+  if (glow){ mat.emissive = new THREE.Color(0xffffff); mat.emissiveIntensity = glow; }
   const fallback = canvasTex(512, 640, (g, W2, H2) => {
     g.fillStyle="#f7f2ea"; g.fillRect(0,0,W2,H2);
     g.fillStyle="#e3d9cb"; g.fillRect(28,28,W2-56,H2-170);
@@ -696,7 +747,7 @@ function photoCard(i, fallbackTitle, fallbackSub, w=.5, h=.62){
     t.colorSpace = THREE.SRGBColorSpace;
     const img = t.image, target = w/h, ar = img.width/img.height;
     if (ar > target){ t.repeat.set(target/ar,1); t.offset.set((1-target/ar)/2,0); } else { t.repeat.set(1,ar/target); t.offset.set(0,(1-ar/target)/2); }
-    mat.map = t; mat.needsUpdate = true; }, undefined, () => tryLoad(exts.slice(1))); };
+    mat.map = t; if (glow) mat.emissiveMap = t; mat.needsUpdate = true; }, undefined, () => tryLoad(exts.slice(1))); };
   tryLoad(["jpg","jpeg","png","webp"]);
   const g = new THREE.Group();
   const border = mesh(new THREE.BoxGeometry(w+.05, h+.05, .02), M(0xfaf7f2,{roughness:.7})); g.add(border);
@@ -705,8 +756,8 @@ function photoCard(i, fallbackTitle, fallbackSub, w=.5, h=.62){
   return g;
 }
 /* desk frame (photo 1) */
-const deskFrame = photoCard(1, "Hi, I'm Utsav", "photos/1.jpg", .14, .18);
-deskFrame.position.set(.55,.773+.105,-2.14); deskFrame.rotation.set(-.12,-.35,0); scene.add(deskFrame);
+const deskFrame = photoCard(1, "Hi, I'm Utsav", "photos/1.jpg", .16, .21, .55);
+deskFrame.position.set(-.62,.773+.125,-2.16); deskFrame.rotation.set(-.12,.32,0); scene.add(deskFrame);
 /* wall gallery on the left wall (photos 2–4) */
 [[2,"Happiest up here","mountains", -1.2],[3,"Sunrise person","",-.55+.1],[4,"Living the life","", .2]].forEach(([i,t,s,z],k)=>{
   const f = photoCard(i, t, `photos/${i}.jpg`, .5, .64); f.position.set(-W/2+.03, 1.62 + (k===1?.12:0), z+.15); f.rotation.y = Math.PI/2; scene.add(f);
@@ -754,9 +805,9 @@ addMemory("2023", memoryTex({ kicker:"Learning the long way", title:"C → Java 
 ["Computer Networks","Operating Systems","DBMS + SQL","Computer Architecture"].forEach((s,i)=>{
   addMemory("2024", memoryTex({ kicker:"Semester 3", title:s }, { bg:["#fff3c4","#ffe0d6","#dff1e6","#e3e9ff"][i], accent:"#7c5c1a", w:420, h:300 }), [[-1.45,-.85,.85,1.45][i], 1.45+(i%2)*.2, -2.5], [0,[.35,.15,-.15,-.35][i],(i-1.5)*.05], [.42,.3]);
 });
-const fsTex = canvasTex(640, 420, (g,W2,H2)=>{ g.fillStyle="#fffdf9"; g.beginPath(); g.roundRect(0,0,W2,H2,34); g.fill(); g.fillStyle="#d93025"; g.font="600 24px Inter"; g.fillText("LIVE · CHROME EXTENSION",44,58); g.fillStyle="#1f1c18"; g.font="400 58px Georgia"; g.fillText("FocusSpace",44,140); g.fillStyle="#5b544c"; g.font="400 27px Inter"; wrapText(g,"YouTube, organised around what you came to learn. My v1 let in 105 of 270 videos. I rewrote it.",44,196,W2-88,38); g.fillStyle="#1f1c18"; g.font="600 24px Inter"; g.fillText("Click to open ↗",44,H2-40); });
-const p2Tex = canvasTex(640, 420, (g,W2,H2)=>{ g.fillStyle="#efecff"; g.beginPath(); g.roundRect(0,0,W2,H2,34); g.fill(); g.fillStyle="#5b48e6"; g.font="600 24px Inter"; g.fillText("LIVE · PLAY2PLACE.ONLINE",44,58); g.fillStyle="#1f1c18"; g.font="400 58px Georgia"; g.fillText("Play2Place",44,140); g.fillStyle="#5b544c"; g.font="400 27px Inter"; wrapText(g,"Placement-test practice, company by company. 10 game engines, live contests. ₹49 a month.",44,196,W2-88,38); g.fillStyle="#1f1c18"; g.font="600 24px Inter"; g.fillText("Click to open ↗",44,H2-40); });
-const ugTex = canvasTex(640, 420, (g,W2,H2)=>{ g.fillStyle="#e8f3ee"; g.beginPath(); g.roundRect(0,0,W2,H2,34); g.fill(); g.fillStyle="#1d6b58"; g.font="600 24px Inter"; g.fillText("HACKATHON · SOLO",44,58); g.fillStyle="#1f1c18"; g.font="400 58px Georgia"; g.fillText("Upgrade Gate",44,140); g.fillStyle="#5b544c"; g.font="400 27px Inter"; wrapText(g,"My scorer said +1.13. It was rejecting correct Hindi spellings. Real answer: 0.00.",44,196,W2-88,38); g.fillStyle="#1f1c18"; g.font="600 24px Inter"; g.fillText("Click to open ↗",44,H2-40); });
+const fsTex = canvasTex(640, 420, (g,W2,H2)=>{ g.fillStyle="#fffdf9"; g.beginPath(); g.roundRect(0,0,W2,H2,34); g.fill(); g.fillStyle="#d93025"; g.font="600 24px Inter"; g.fillText("LIVE · CHROME EXTENSION",44,58); g.fillStyle="#1f1c18"; g.font="400 58px Georgia"; g.fillText("FocusSpace",44,140); g.fillStyle="#5b544c"; g.font="400 27px Inter"; wrapText(g,"YouTube, but only for what you came to learn. Pick a goal, get a clear path.",44,196,W2-88,38); g.fillStyle="#1f1c18"; g.font="600 24px Inter"; g.fillText("Click to open ↗",44,H2-40); });
+const p2Tex = canvasTex(640, 420, (g,W2,H2)=>{ g.fillStyle="#efecff"; g.beginPath(); g.roundRect(0,0,W2,H2,34); g.fill(); g.fillStyle="#5b48e6"; g.font="600 24px Inter"; g.fillText("LIVE · PLAY2PLACE.ONLINE",44,58); g.fillStyle="#1f1c18"; g.font="400 58px Georgia"; g.fillText("Play2Place",44,140); g.fillStyle="#5b544c"; g.font="400 27px Inter"; wrapText(g,"Placement practice that feels like a game. Real company tests, live contests.",44,196,W2-88,38); g.fillStyle="#1f1c18"; g.font="600 24px Inter"; g.fillText("Click to open ↗",44,H2-40); });
+const ugTex = canvasTex(640, 420, (g,W2,H2)=>{ g.fillStyle="#e8f3ee"; g.beginPath(); g.roundRect(0,0,W2,H2,34); g.fill(); g.fillStyle="#1d6b58"; g.font="600 24px Inter"; g.fillText("HACKATHON · SOLO",44,58); g.fillStyle="#1f1c18"; g.font="400 58px Georgia"; g.fillText("Upgrade Gate",44,140); g.fillStyle="#5b544c"; g.font="400 27px Inter"; wrapText(g,"Checks a newer AI model before you switch, so nothing quietly breaks.",44,196,W2-88,38); g.fillStyle="#1f1c18"; g.font="600 24px Inter"; g.fillText("Click to open ↗",44,H2-40); });
 addMemory("2026", fsTex, [-.8,1.15,-1.95], [0,.35,0], [.5,.33], { href:"https://chromewebstore.google.com/detail/focusspace-intent-driven/ilakannjmakocgmilmndfojkaonbigkk", tip:"Open FocusSpace" });
 addMemory("2026", p2Tex, [0,1.66,-2.05], [0,0,0], [.5,.33], { href:"https://play2place.online", tip:"Open Play2Place" });
 addMemory("2026", ugTex, [.8,1.15,-1.95], [0,-.35,0], [.5,.33], { href:"https://web-production-00176.up.railway.app", tip:"Open Upgrade Gate" });
@@ -767,6 +818,7 @@ addMemory("now", memoryTex({ kicker:"Campaign I'd run", title:"Say the full idea
 
 /* ---------- camera stops ---------- */
 const POSES = {
+  overview: { p:[3.5,2.75,4.2], t:[.2,.7,-1.6] },
   home: { p:[2.25,1.62,1.35], t:[-.55,1.02,-2.05] },
   "2021": { p:[-1.2,1.35,.6], t:[-3.4,1.2,-1.4] },
   "2023": { p:[-1.3,1.4,1.0], t:[-4.3,1.3,-.8] },
@@ -775,8 +827,8 @@ const POSES = {
   now: { p:[0,1.25,.4], t:[0,1.6,-3.6] },
   laptop: { p:[0,.99,-2.34], t:[0,.875,-1.88] }
 };
-const camPos = new THREE.Vector3(...POSES.home.p).add(new THREE.Vector3(0,.6,2.2)), camTgt = new THREE.Vector3(...POSES.home.t);
-const goalPos = new THREE.Vector3(...POSES.home.p), goalTgt = new THREE.Vector3(...POSES.home.t);
+const camPos = new THREE.Vector3(...POSES.overview.p).add(new THREE.Vector3(.4,.3,.4)), camTgt = new THREE.Vector3(...POSES.overview.t);
+const goalPos = new THREE.Vector3(...POSES.overview.p), goalTgt = new THREE.Vector3(...POSES.overview.t);
 const mouse = new THREE.Vector2(), look = new THREE.Vector2();
 
 let stop = 0;
@@ -839,7 +891,7 @@ function openLaptop(onOpen){
   flying = true; $("#tip").classList.remove("on");
   document.body.classList.add("hide-ui"); if (person) person.visible = false;
   goalPos.set(...POSES.laptop.p); goalTgt.set(...POSES.laptop.t);
-  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=9";
+  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=10";
   const whenReady = cb => { if (frameReady(fr)) cb(); else fr.addEventListener("load", () => setTimeout(cb, 300), { once:true }); };
   setTimeout(() => { $("#mac").classList.add("open"); $("#mac").setAttribute("aria-hidden","false"); macOpen = true; flying = false; $("#back").focus();
     whenReady(() => { if (onOpen) onOpen(); else { try { fr.contentWindow.tourHide(); } catch(e){} } }); }, reduce ? 0 : 1300);
@@ -855,10 +907,10 @@ const TOUR = [
   { stop:5, t:"Now · Shipping every week", ms:9000 },
   { app:"story", t:"How I built this", d:"Ideas in my head → Wispr Flow → this site.", ms:24000 },
   { app:"ai",    t:"My AI toolkit", d:"I can build anything with AI: products, campaigns, dashboards, videos.", ms:14000 },
-  { app:"made",  t:"My Wispr Flow", d:"Real numbers: 102,899 words spoken, 144 wpm, top 0.2%.", ms:14000 },
-  { app:"fs",    t:"FocusSpace", d:"My Chrome extension that keeps YouTube on what you came to learn.", ms:12000 },
+  { app:"made",  t:"How I use Wispr Flow", d:"As a user: 102,899 words spoken, 144 wpm, top 0.2%.", ms:14000 },
+  { app:"fs",    t:"FocusSpace", d:"YouTube, but only for what you came to learn. Real screens, and what I learned.", ms:12000 },
   { app:"p2p",   t:"Play2Place", d:"Placement practice that feels like a game.", ms:10000 },
-  { app:"gate",  t:"Upgrade Gate", d:"Built solo at a hackathon. Find the bug yourself.", ms:11000 },
+  { app:"gate",  t:"Upgrade Gate", d:"Built solo at a hackathon. A score isn't the truth until you read the answers.", ms:11000 },
   { app:"ideas", t:"Ideas for Flow", d:"What I'd love next as a daily user: reminders, notes from any link, and more.", ms:16000 },
   { app:"camp",  t:"Say the full idea", d:"The first growth campaign I'd run in India.", ms:12000 },
   { app:"mail",  t:"Let's talk", d:"Full-time or internship. Bangalore, and happy to travel.", ms:9000 }
@@ -905,7 +957,9 @@ $("#eye").onclick = () => { document.body.classList.toggle("hide-ui"); $("#eye")
 
 /* intro */
 let entered = false;
-$("#enter").onclick = () => { entered = true; $("#intro").classList.add("gone"); setStop(0);
+function showOverview(){ goalPos.set(...POSES.overview.p); goalTgt.set(...POSES.overview.t); }
+$("#overview").onclick = showOverview;
+$("#enter").onclick = () => { entered = true; $("#intro").classList.add("gone"); showOverview(); setTimeout(() => { if (stop === 0 && !macOpen && !(window.TourAPI && TourAPI.active)) setStop(0); }, reduce ? 0 : 1600);
   document.body.classList.add("entering"); document.body.classList.remove("pre");
   setTimeout(() => document.body.classList.remove("entering"), 1400); };
 
