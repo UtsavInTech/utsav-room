@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=6">
+<link rel="stylesheet" href="css/motion.css?v=7">
 <style>
 :root{
   --ink:#1d1d1f; --ink-2:#55555c; --ink-3:#8a8a92; --line:rgba(0,0,0,.08);
@@ -664,6 +664,41 @@ input[type=range]{width:100%;accent-color:#ffb000}
 @media (max-width:900px){.tour-t,.tour-dots{display:none}}
 @media (max-width:1100px){.mb:has(.tour:not([hidden])) > button:not(.deskbtn):not(.app):not(#appleBtn){display:none}}
 @media (max-width:520px){.tour-k{display:none}.mb .deskbtn{display:none}}
+
+/* tour pill extras */
+.tour{position:relative;overflow:hidden}
+.tour-prog{position:absolute;left:10px;right:10px;bottom:1px;height:2px;border-radius:2px;background:rgba(255,255,255,.18);overflow:hidden}
+.tour-prog i{display:block;height:100%;width:0;background:#fff}
+@keyframes tourp{from{width:0}to{width:100%}}
+
+/* ---------- My AI toolkit ---------- */
+.i-ai{background:linear-gradient(135deg,#6d5dfc,#d16bff 55%,#ff8a5c)}
+.i-ideas{background:linear-gradient(135deg,#ffe27a,#ffb627)}
+.aik,.ideas{padding:22px 26px 28px}
+.aik h5{margin:16px 0 8px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.aik-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.aik-tool{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff;transition:translate .45s var(--spring-snap),box-shadow .3s}
+.aik-tool:hover{translate:0 -2px;box-shadow:0 8px 22px rgba(0,0,0,.08)}
+.aik-tool img{width:42px;height:42px;border-radius:11px;object-fit:contain;flex:none;background:#f5f5f7;padding:2px}
+.aik-tool b{display:block;font-size:14px}.aik-tool span{font-size:12.5px;color:var(--ink-2);line-height:1.35}
+.aik-make{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.aik-make button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:12px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#faf9ff);cursor:pointer;transition:scale .45s var(--spring-snap),box-shadow .3s}
+.aik-make button:hover:not([disabled]){box-shadow:0 8px 22px rgba(109,93,252,.14)}
+.aik-make button:active:not([disabled]){scale:.96}
+.aik-make button[disabled]{cursor:default}
+.aik-make span{font-size:22px}.aik-make b{font-size:13.5px}.aik-make small{font-size:12px;color:var(--ink-2)}
+
+/* ---------- Ideas for Flow ---------- */
+.idea-list{display:grid;gap:10px}
+.idea{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:14px 16px;border-radius:16px;border:1px solid var(--line);background:#fff}
+.idea-n{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;background:#1d1828;color:#fff}
+.idea small{font-size:11.5px;font-weight:600;color:#b4540a;letter-spacing:.02em}
+.idea h3{margin:2px 0 4px;font:400 21px/1.15 var(--serif)}
+.idea p{margin:0 0 10px;font-size:14px;color:var(--ink-2)}
+.idea-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.idea-meta div{font-size:12.5px;color:var(--ink-2);padding:9px 11px;border-radius:10px;background:#f7f6f2}
+.idea-meta b{display:block;font-size:11.5px;color:var(--ink);margin-bottom:2px}
+@media (max-width:720px){.idea-meta{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -677,10 +712,11 @@ input[type=range]{width:100%;accent-color:#ffb000}
   <div class="tour" id="tour" hidden role="group" aria-label="3-minute tour">
     <span class="tour-k">Tour <b id="tourN">1</b>/<span id="tourM">4</span></span>
     <span class="tour-t" id="tourT"></span>
-    <span class="tour-dots" id="tourDots"></span>
     <button id="tourPrev" aria-label="Previous stop">←</button>
+    <button id="tourPlay" aria-label="Pause or play the tour">❚❚</button>
     <button class="tour-next" id="tourNext">Next →</button>
     <button id="tourX" aria-label="End the tour">✕</button>
+    <i class="tour-prog"><i id="tourP"></i></i>
   </div>
   <span class="sp"></span>
   <span class="st">
@@ -701,7 +737,7 @@ input[type=range]{width:100%;accent-color:#ffb000}
 <div class="notif" id="notif" role="status"><span class="ic i-notes"></span><div><b>Welcome to my Mac 👋</b><span>Start with Notes, or tap the Wispr Flow icon in the Dock to see how I built this by voice.</span></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/songs.js?v=6"></script>
+<script src="js/songs.js?v=7"></script>
 <script>
 /* ============ helpers (shared with the app builders) ============ */
 const $ = (s, r=document) => r.querySelector(s);
@@ -725,7 +761,8 @@ const ICON = {
   mail:`<span class="ic real"><img src="assets/icons/Mail.png" alt=""></span>`,
   fs:`<span class="ic i-fs"><img src="assets/focusspace.png" alt=""></span>`,
   p2p:`<span class="ic" style="background:#fff"><img src="assets/play2place.png" alt="" style="width:86%;height:86%;object-fit:contain"></span>`,
-  flow:`<span class="ic i-flow"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/></svg></span>`,
+  ai:`<span class="ic i-ai"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2.5l1.9 5.6 5.6 1.9-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.9z"/><path d="M18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z" opacity=".8"/></svg></span>`,
+  ideas:`<span class="ic i-ideas"><svg viewBox="0 0 24 24" fill="none" stroke="#5a3a00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z" fill="#fff8d6"/></svg></span>`,
   gate:`<span class="ic i-gate"><svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="20" rx="3" fill="#0b2a23"/><circle cx="12" cy="6.5" r="2" fill="#ff5f57"/><circle cx="12" cy="12" r="2" fill="#febc2e" opacity=".5"/><circle cx="12" cy="17.5" r="2" fill="#4ade80"/></svg></span>`,
   camp:`<span class="ic i-camp"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M3 10v4h4l8 5V5L7 10H3z"/><path d="M18.5 8.5a5 5 0 0 1 0 7"/></svg></span>`,
   trash:`<span class="ic real"><img src="assets/icons/Trash.png" alt=""></span>`,
@@ -743,10 +780,11 @@ const APPS = [
   { id:"made", name:"Wispr Flow", w:940, h:640 },
   { id:"story", name:"How I built this", w:900, h:620, hidden:true },
   { id:"build", name:"Build with voice", w:980, h:680 },
+  { id:"ai", name:"My AI Toolkit", w:860, h:660 },
   { id:"fs", name:"FocusSpace", w:860, h:640 },
   { id:"p2p", name:"Play2Place", w:560, h:600 },
-  { id:"flow", name:"Say It", w:700, h:660 },
   { id:"gate", name:"Upgrade Gate", w:660, h:640 },
+  { id:"ideas", name:"Ideas for Flow", w:820, h:660 },
   { id:"camp", name:"Say the Full Idea", w:640, h:660 },
   { sep:true },
   { id:"trash", name:"Trash", w:420, h:300 },
@@ -855,9 +893,9 @@ BUILD.notes = (el, win) => {
       <p><b>FocusSpace, v1.</b> My relevance engine called 105 of 270 videos "relevant" to AI/ML. "My New Laptop for AI" got in because the word "ai" alone passed. I rewrote it so a keyword is evidence, not a verdict. <button class="lk" data-app="fs">See before/after →</button></p>
       <p><b>Upgrade Gate.</b> My scorer said the new model was +1.13 points better on Hindi. It was rejecting correct spellings like <i>Somwar</i> vs <i>Somvar</i>. After the fix: 0.00. <button class="lk" data-app="gate">Find the bug yourself →</button></p>
       <p>Lesson I keep relearning: read the answers before you trust the number.</p>` },
-    { t:"What I'd do at Wispr", d:"week one", s:"Names, a small test, one campaign", body:`
+    { t:"What I'd do at Wispr", d:"week one", s:"Ideas, a small test, one campaign", body:`
       <h1>What I'd do at Wispr</h1>
-      <ul><li><b>Fix the name problem people feel.</b> Wispr still types similar-sounding words for some Indian names. Correction pairs exist; I'd add a spoken check that proves the fix worked. <button class="lk" data-app="flow">Try my concept →</button></li>
+      <ul><li><b>Bring my ideas for Flow.</b> Five recommendations, each built on something Flow already has, so each one can ship. <button class="lk" data-app="ideas">See them →</button></li>
       <li><b>Find the task that makes voice stick.</b> 5–8 student builders, one daily task (describing an app change to an AI tool), typing vs free dictation vs Flow. Measure time to a usable result, and who is still using voice a week later.</li>
       <li><b>Run one campaign: “Say the full idea.”</b> Builders type lazy prompts; say the whole thing instead and post the before/after. <button class="lk" data-app="camp">Make your post →</button></li></ul>` },
     { t:"How I built this", d:"by voice", s:"Spoken first, coded second", body:`
@@ -1062,103 +1100,55 @@ BUILD.gate = (el, win) => {
       more.insertAdjacentHTML("beforeend", `<div class="row" style="margin-top:10px"><button class="btn" id="voice" style="background:#1d6b58">Now rerun with a real human voice</button></div>`);
       $("#voice", el).onclick = () => {
         setV("no","NO-GO","Don't upgrade","With a real voice, accuracy fell 11 points, and blank answers appeared only on the new model.");
-        more.innerHTML = `<div class="card" style="margin-top:12px"><b>What I learned:</b> read the answers before you trust the p-value. And Indian spellings and names break tools in quiet ways. That's why the Wispr name bug bugs me.</div>
+        more.innerHTML = `<div class="card" style="margin-top:12px"><b>What I learned:</b> read the answers before you trust the p-value. Indian spellings break tools in quiet ways, so now I always test with real Indian data.</div>
           <img class="shot" src="assets/upgrade-gate-report.jpg" alt="The real Upgrade Gate report for the voice-note run">
-          <div class="row" style="margin-top:12px"><a class="btn" href="https://web-production-00176.up.railway.app" target="_blank" rel="noopener">Open the live site ↗</a><button class="btn ghost" data-app="flow">See the name bug →</button></div>`;
+          <div class="row" style="margin-top:12px"><a class="btn" href="https://web-production-00176.up.railway.app" target="_blank" rel="noopener">Open the live site ↗</a><button class="btn ghost" data-app="ideas">My ideas for Flow →</button></div>`;
       };
     };
   };
   win._cleanup = () => clearInterval(tmr);
 };
 
-/* ---- Say It (dictation cleanup + name fix) ---- */
-BUILD.flow = (el, win) => {
-  const S = [
-    "um so basically I want to add a login page uh with Google sign-in no wait with Google and email both and um it should send people back to the course they were on",
-    "hey Rahul so like the meeting is on Tuesday sorry I mean Wednesday at 5 and uh please bring the um the slides",
-    "matlab okay so the order is two kilo atta and uh one litre oil actually make it two litre oil delivery to pincode 110025"
+/* ---- My AI toolkit: I can build anything with AI ---- */
+BUILD.ai = (el) => {
+  const TOOLS = [
+    ["Build", [["Claude","assets/ai/claude.png","My main build partner. I talk, it codes. This room was built that way."],
+               ["ChatGPT & Codex","assets/ai/chatgpt.png","Research, second opinions, and Codex for code."],
+               ["GitHub","assets/ai/github.svg","Where every project lives."],
+               ["Railway","assets/ai/railway.png","Ships it live. This site runs on it."]]],
+    ["Voice", [["Wispr Flow","assets/wispr-flow-icon.png","102,899 words spoken. Every idea starts here."]]],
+    ["Create", [["HeyGen","assets/ai/heygen.png","AI video with a presenter, for demos and campaigns."],
+                ["Artlist","assets/ai/artlist.png","AI video, music and footage for edits."]]]
   ];
-  el.innerHTML = `<div class="flow">
-    <div class="row" style="justify-content:space-between"><h2 class="h" style="margin:0">Talk messy. <i>Get clean.</i></h2><span class="chip concept">My mini version, not Wispr</span></div>
-    <p class="muted" style="margin:6px 0 14px">I've used Wispr Flow every day for two months. This is my 40-line take on what it does: remove fillers and handle “no wait”. Press the mic and ramble, or try a sample.</p>
-    <div class="row" style="gap:14px"><button class="micbig" id="mic" aria-label="Start dictating">${MIC}</button>
-      <div class="samples" style="flex:1"><span class="small muted" style="width:100%">Or try a sample:</span><button data-s="0">Prompt for a coding AI</button><button data-s="1">Message to a friend</button><button data-s="2">Hinglish shop order</button></div></div>
-    <div class="panes"><div class="pane raw"><h4>What you said</h4><div id="raw" aria-live="polite">…</div></div><div class="pane clean"><h4>What gets typed</h4><div id="clean" aria-live="polite">…</div><ul class="fixed-list" id="fixes"></ul></div></div>
-
-    <div class="namefix">
-      <div class="row" style="justify-content:space-between"><b>The bug I live with: names</b><span class="chip concept">Concept</span></div>
-      <p class="small muted" style="margin:4px 0 0">Wispr keeps typing a similar-sounding word instead of certain names, and I've seen it on other accounts too. Its dictionary already supports wrong→right pairs. What's missing is a test that proves the fix worked. Try it with your own name:</p>
-      <div class="two"><div><label for="nm">Your name</label><input id="nm" placeholder="e.g. Utsav"></div><div><label for="nw">What a tool typed instead</label><input id="nw" placeholder="e.g. Utsab"></div></div>
-      <div class="row" style="margin-top:12px"><button class="btn" id="save">Save the fix</button><button class="btn ghost" id="test" disabled>${MIC.replace('<svg','<svg width="16" height="16"')} Say a sentence with it</button></div>
-      <div class="result" id="res" aria-live="polite"></div>
-    </div>
+  const MAKE = [["🚀","Products","FocusSpace, Play2Place, Upgrade Gate","fs"],["🏆","Hackathons","Upgrade Gate: built solo at one","gate"],["📣","Campaigns","Say the Full Idea","camp"],["📊","Interactive dashboards","Like my Wispr Flow numbers","made"],["🎬","Videos","AI presenters, edits and music",""]];
+  el.innerHTML = `<div class="aik">
+    <span class="chip plan">My toolkit</span>
+    <h2 class="h" style="margin:10px 0 6px">I can build <i>anything</i> with AI.</h2>
+    <p class="muted" style="margin:0 0 18px">Not only code. Products, campaigns, interactive dashboards and videos. I ship something every week and jump into hackathons. AI does the heavy lifting; I bring the idea, the taste, and the push to finish.</p>
+    ${TOOLS.map(([g,list]) => `<h5>${g}</h5><div class="aik-grid">${list.map(([n,src,d]) => `<div class="aik-tool"><img src="${src}" alt=""><div><b>${n}</b><span>${d}</span></div></div>`).join("")}</div>`).join("")}
+    <h5>What I make with them</h5>
+    <div class="aik-make">${MAKE.map(([e,t,d,app]) => `<button ${app ? `data-app="${app}"` : "disabled"}><span>${e}</span><b>${t}</b><small>${d}</small></button>`).join("")}</div>
   </div>`;
-  const FILL = /\b(um+|uh+|erm|hmm|you know|basically|like|matlab|so basically|okay so)\b,?\s*/gi;
-  const CORR = /\s*(?:,\s*)?\b(no wait|sorry i mean|i mean|actually make it|actually)\b\s*/i;
-  function clean(raw){
-    const fixes = []; let s = raw.trim();
-    const words = (s.match(FILL)||[]); if (words.length) fixes.push(`Removed ${words.length} filler${words.length>1?'s':''}: ${[...new Set(words.map(w=>w.trim().replace(',','').toLowerCase()))].join(", ")}`);
-    s = s.replace(FILL, "");
-    let m, guard=0;
-    while ((m = s.match(CORR)) && guard++ < 4) {
-      const before = s.slice(0, m.index), after = s.slice(m.index + m[0].length);
-      // find where the restated phrase began: a word that reappears near the start of the correction
-      const aw = after.toLowerCase().split(/\s+/).slice(0,3).map(w=>w.replace(/[^\w-]/g,""));
-      const bw = before.trim().split(/\s+/);
-      let cut = -1;
-      for (let i = bw.length-1; i >= Math.max(0,bw.length-6) && cut < 0; i--) {
-        const w = bw[i].toLowerCase().replace(/[^\w-]/g,"");
-        const j = aw.indexOf(w);
-        if (w.length > 2 && j >= 0) cut = Math.max(0, i - j);
-      }
-      if (cut < 0) cut = Math.max(0, bw.length - 1); // no overlap: swap just the last word
-      const dropped = bw.slice(cut).join(" ");
-      fixes.push(`Heard “${m[1]}”: replaced “${dropped}”`);
-      s = bw.slice(0,cut).join(" ") + " " + after;
-    }
-    s = s.replace(/\s+/g," ").replace(/\bthe the\b/gi,"the").trim();
-    s = s.replace(/\bi\b/g,"I").replace(/(^|[.!?]\s+)([a-z])/g,(a,b,c)=>b+c.toUpperCase());
-    if (!/[.!?]$/.test(s)) s += ".";
-    return { s, fixes };
-  }
-  function show(raw){
-    $("#raw", el).innerHTML = raw.replace(FILL, m=>`<del>${m.trim()}</del> `).replace(/\b(no wait|sorry I mean|actually make it)\b/gi, m=>`<del>${m}</del>`);
-    const r = clean(raw); $("#clean", el).textContent = r.s;
-    $("#fixes", el).innerHTML = r.fixes.map(f=>`<li>${f}</li>`).join("");
-  }
-  $$("[data-s]", el).forEach(b => b.onclick = () => show(S[b.dataset.s]));
-  let rec=null;
-  $("#mic", el).onclick = () => {
-    if (!SR) { toast("Live mic works in Chrome. Showing a sample instead."); show(S[0]); return; }
-    if (rec) { rec.stop(); return; }
-    rec = new SR(); rec.lang="en-IN"; rec.interimResults=true; rec.continuous=true; let final="";
-    $("#mic", el).classList.add("on"); $("#raw", el).textContent="Listening… speak naturally, fillers and all.";
-    rec.onresult = e => { let interim=""; for (let i=e.resultIndex;i<e.results.length;i++){ const t=e.results[i][0].transcript; if(e.results[i].isFinal) final+=t+" "; else interim+=t; } $("#raw", el).textContent = final+interim; if (final) show(final); };
-    rec.onend = () => { $("#mic", el).classList.remove("on"); rec=null; };
-    rec.onerror = e => toast(e.error==="not-allowed" ? "Mic blocked. Try a sample instead." : "Couldn't hear. Try again.");
-    rec.start();
-  };
-  // name fix concept
-  let saved=null;
-  $("#save", el).onclick = () => {
-    const n=$("#nm", el).value.trim(), w=$("#nw", el).value.trim();
-    if(!n){ $("#res", el).textContent="Type your name first."; return; }
-    saved={n,w}; $("#test", el).disabled=false;
-    $("#res", el).innerHTML = `Saved: “${w||'(wrong word)'}” → “${n}”. <span class="muted">This only fixes text after it's typed. It can't teach the tool how you <i>say</i> it, and it would wrongly change anyone who really means “${w||'that word'}”. Now test it out loud.</span>`;
-  };
-  let nrec=null;
-  $("#test", el).onclick = () => {
-    if (!saved) return;
-    if (!SR) { $("#res", el).textContent = "Live test needs Chrome. In my concept, this is the step that proves the fix worked."; return; }
-    nrec = new SR(); nrec.lang="en-IN";
-    $("#res", el).textContent = `Listening… say a sentence with “${saved.n}” in it.`;
-    nrec.onresult = e => { const t = e.results[0][0].transcript; const ok = t.toLowerCase().includes(saved.n.toLowerCase());
-      $("#res", el).innerHTML = ok ? `✅ Heard: “${t}”. Got it right this time.` : `❌ Heard: “${t}”. This is exactly my problem. A pronunciation step, plus a fresh test like this one, is the fix I'd want to try.`; };
-    nrec.onerror = e => $("#res", el).textContent = e.error==="not-allowed" ? "Mic blocked." : "Couldn't hear. Try again.";
-    nrec.start();
-  };
-  show(S[0]);
-  win._cleanup = () => { rec && rec.stop(); nrec && nrec.stop(); };
+};
+
+/* ---- Ideas for Flow: my recommendations, each built on something Flow already has ---- */
+BUILD.ideas = (el) => {
+  const IDEAS = [
+    { on:"Dictionary", t:"Say a word once, Flow learns it", idea:"Tap a word and say it once. Flow keeps how you say it, then runs a 3-second check so you know it stuck.", how:"A short voice sample on each Dictionary entry, plus a quick replay test.", why:"Names, places and Hinglish words, learned in seconds." },
+    { on:"Style", t:"Prompt mode for AI builders", idea:"When I talk into Claude, ChatGPT or Cursor, Flow shapes a long spoken idea into a clear brief: goal, context, constraints.", how:"Flow already counts AI prompts in Insights (147 of mine). Add a prompt style that switches on there.", why:"Builders say the full idea and get better results first time." },
+    { on:"Notes", t:"Lecture to revision", idea:"After a lecture, speak your takeaways. Flow Notes turns them into revision reminders on day 1, 3 and 7.", how:"Flow Notes plus a simple spaced-repetition schedule. It pairs with my FocusSpace.", why:"Students are a huge share of India's new builders." },
+    { on:"Leaderboard + free month", t:"Campus voice week", idea:"A week-long challenge at a college: most words spoken wins Pro, everyone shares their streak.", how:"Flow's Leaderboard and 'Get a free month' referrals already exist. Add a page per campus.", why:"Growth that spreads student to student." },
+    { on:"Insights · Share", t:"Weekly voice wrap", idea:"Every Sunday, a share card: words spoken, streak, time saved. Ready for LinkedIn and X.", how:"Insights already has a Share button. Make it weekly and automatic.", why:"Every share is a real person showing Flow to their friends." }
+  ];
+  el.innerHTML = `<div class="ideas">
+    <span class="chip live">My recommendations</span>
+    <h2 class="h" style="margin:10px 0 6px">Ideas for <i>Flow</i></h2>
+    <p class="muted" style="margin:0 0 16px">Things I'd love to build with the Wispr team. Each one sits on top of something Flow already does, so each one can ship.</p>
+    <div class="idea-list">${IDEAS.map((x,n) => `<article class="idea"><div class="idea-n">${n+1}</div><div>
+      <small>Builds on: ${x.on}</small><h3>${x.t}</h3><p>${x.idea}</p>
+      <div class="idea-meta"><div><b>How it could be built</b>${x.how}</div><div><b>Why it matters</b>${x.why}</div></div></div></article>`).join("")}</div>
+    <p class="note">I add a new one whenever Flow surprises me.</p>
+  </div>`;
 };
 
 /* ---- Campaign ---- */
@@ -1202,7 +1192,7 @@ BUILD.camp = (el) => {
 BUILD.msg = (el) => {
   const QA = [
     ["Are you available?", "Yes. Full-time or internship, and I can start soon. Happy to be in Bangalore, and I'm willing to travel."],
-    ["Why Wispr?", "I already use it every day. I've spent two months noticing where it's great and where it trips on Indian names. I'd love to work on getting more people here to that 'can't go back' moment."],
+    ["Why Wispr?", "It's how I build. 60 days, 102,899 words, mostly spoken straight into AI tools. I'd love to help more people in India get to that 'can't go back' moment."],
     ["What would you do first?", "Run a small test with real student builders in week one, typing vs speaking the same task, then launch “Say the full idea” in builder communities and measure who's still speaking a week later."],
     ["What have you shipped?", "FocusSpace (Chrome extension), Play2Place (placement practice, paid in ₹ via UPI) and Upgrade Gate (a hackathon build). All built and shipped solo."],
     ["How did you build this?", "Mostly by talking. I described what I wanted through Wispr Flow, out loud and messy, then corrected what came back the same way."],
@@ -1354,9 +1344,9 @@ BUILD.made = (el, win) => {
       <div class="wf-grid"><section class="wf-card"><h3>Words per day, last week</h3><div class="wf-chart">${FLOW.week.map(([d,w]) => `<div><i style="height:${Math.max(3, w/max*100)}%"></i><span>${d}</span></div>`).join("")}</div><p class="wf-note">1 Nov: ${fmt(6924)} words. That was the day I built this room by talking.</p></section>
       <section class="wf-card"><h3>Where the words went, last week</h3>${FLOW.apps.map(([a,w]) => `<div class="wf-bar"><span>${a}</span><div><i style="width:${w/appMax*100}%"></i></div><b>${fmt(w)}</b></div>`).join("")}<p class="wf-note">Mostly into Claude and Codex: I build by talking.</p></section></div>
       <div class="row" style="margin-top:16px"><button class="btn" data-open="story">▶ Watch how I built this</button><a class="btn ghost" href="https://wisprflow.ai" target="_blank" rel="noopener">Download Wispr Flow ↗</a></div>`,
-    dict: () => `<h1>Dictionary</h1><p class="wf-sub">${fmt(FLOW.dictFixes)} dictionary fixes so far. Names are still the hard part, which is why I designed a spoken check.</p><button class="btn" data-open="flow">Try the name-fix concept →</button>`,
+    dict: () => `<h1>Dictionary</h1><p class="wf-sub">${fmt(FLOW.dictFixes)} dictionary fixes so far. I teach Flow my words every day, and I have an idea to make it even faster.</p><button class="btn" data-open="ideas">See my ideas for Flow →</button>`,
     snip: () => `<h1>Snippets</h1><p class="wf-sub">Short cues that expand into text I repeat, like my email and links.</p><div class="wf-card"><div class="wf-snip"><b>“my email”</b> → utsav.udk@gmail.com</div><div class="wf-snip"><b>“my linkedin”</b> → linkedin.com/in/utsav-tech</div></div>`,
-    style: () => `<h1>Style</h1><p class="wf-sub">Casual in chats, clear and complete in prompts. Flow keeps my voice and drops the “um”s.</p><button class="btn" data-open="flow">See messy → clean →</button>`,
+    style: () => `<h1>Style</h1><p class="wf-sub">Casual in chats, clear and complete in prompts. Flow keeps my voice and drops the “um”s.</p><button class="btn" data-open="build">See how I build with it →</button>`,
     notes: () => `<h1>Notes</h1><p class="wf-sub">Where ideas land before they become builds.</p><button class="btn" data-open="notes">Open my notes →</button>`,
     meet: () => `<h1>Notetaker</h1><p class="wf-sub">${FLOW.meetings} meetings captured with Flow's Notetaker: summaries and questions I can ask later.</p><div class="wf-card"><p class="wf-note" style="margin:0">Meeting contents stay private. This only shows that I use it.</p></div>`
   };
@@ -1369,7 +1359,7 @@ BUILD.made = (el, win) => {
 
 /* ---- Made with Flow: ideas in my head → Wispr Flow → words → Claude gives it shape ---- */
 BUILD.story = (el, win) => {
-  const IDEAS = ["my story","India","voice","FocusSpace","a 3D room","Play2Place","Golden Gate","my photos","a real MacBook","students","the name bug","a campaign"];
+  const IDEAS = ["my story","India","voice","FocusSpace","a 3D room","Play2Place","Golden Gate","my photos","a real MacBook","students","hackathons","a campaign"];
   const SAID = [
     ["#1","Build something that brings my story to life. Creativity, voice, ownership. Fast."],
     ["#2","Not approved. The colours are wrong, the layout is wrong. Make it interactive, real world."],
@@ -1445,39 +1435,29 @@ BUILD.story = (el, win) => {
 };
 
 
-/* ---------- 3-minute tour: the best evidence, in order ---------- */
-const TOUR = [
-  { app:"story", t:"How I built this", d:"Ideas in my head → Wispr Flow → this site. About a minute." },
-  { app:"made",  t:"My Wispr Flow", d:"My real numbers: 102,899 words dictated, 144 wpm, top 0.2%." },
-  { app:"camp",  t:"Say the full idea", d:"The first growth experiment I'd run for Wispr in India." },
-  { app:"mail",  t:"Let's talk", d:"Full-time or internship. Bangalore, and happy to travel." }
-];
-let tourI = -1;
-$("#tourM").textContent = TOUR.length;
-$("#tourDots").innerHTML = TOUR.map(() => "<i></i>").join("");
-function tourGo(i){
-  if (i < 0) i = 0;
-  if (i >= TOUR.length){ tourEnd(true); return; }
-  tourI = i; const st = TOUR[i];
-  $("#tour").hidden = false; $("#notif").classList.remove("show"); $("#appleMenu").classList.remove("open");
+/* ---------- guided tour: the room runs it, the laptop shows each app ---------- */
+let tourOn = false;
+const TP = () => { try { return (parent !== window && parent.TourAPI) || null; } catch(e){ return null; } };
+window.tourShow = st => {
+  tourOn = true; $("#tour").hidden = false; $("#notif").classList.remove("show"); $("#appleMenu").classList.remove("open");
   Object.keys(opened).filter(id => id !== st.app).forEach(id => closeWin(id));
   openApp(st.app);
-  $("#tourN").textContent = i + 1; $("#tourT").textContent = st.t;
-  $$("#tourDots i").forEach((d,j) => d.classList.toggle("on", j === i));
-  $("#tourPrev").disabled = i === 0; $("#tourPrev").style.opacity = i === 0 ? .35 : 1;
-  $("#tourNext").textContent = i === TOUR.length - 1 ? "Finish ✓" : "Next →";
-  toast(`${i+1}/${TOUR.length} · ${st.d}`, 4200);
-}
-function tourEnd(done){ tourI = -1; $("#tour").hidden = true; if (done) toast("Thanks for taking the tour. Everything else is in the Dock.", 3600); }
-$("#tourNext").onclick = () => tourGo(tourI + 1);
-$("#tourPrev").onclick = () => tourGo(tourI - 1);
-$("#tourX").onclick = () => tourEnd(false);
-window.startTour = () => tourGo(0);
-if (location.hash === "#tour") setTimeout(() => tourGo(0), 300);
+  $("#tourN").textContent = st.n; $("#tourM").textContent = st.total; $("#tourT").textContent = st.t;
+  $("#tourNext").textContent = st.last ? "Finish ✓" : "Next →";
+  const p = $("#tourP"); p.style.animation = "none"; void p.offsetWidth; p.style.animation = `tourp ${st.ms}ms linear forwards`;
+  tourPlaying(st.playing);
+  toast(`${st.n}/${st.total} · ${st.d}`, 4200);
+};
+window.tourPlaying = on => { $("#tourP").style.animationPlayState = on ? "running" : "paused"; $("#tourPlay").textContent = on ? "❚❚" : "▶"; };
+window.tourHide = done => { if (!tourOn) return; tourOn = false; $("#tour").hidden = true; if (done) toast("Thanks for taking the tour. Everything else is in the Dock.", 3600); };
+$("#tourNext").onclick = () => TP() && TP().next();
+$("#tourPrev").onclick = () => TP() && TP().prev();
+$("#tourPlay").onclick = () => TP() && TP().toggle();
+$("#tourX").onclick = () => TP() ? TP().end() : tourHide();
 
 /* first run: Notes with "About me", and a welcome notification */
-setTimeout(() => { if (tourI < 0) openApp("notes"); }, 250);
-setTimeout(() => { if (tourI < 0) $("#notif").classList.add("show"); }, 900);
+setTimeout(() => { if (!tourOn) openApp("notes"); }, 250);
+setTimeout(() => { if (!tourOn) $("#notif").classList.add("show"); }, 900);
 setTimeout(() => $("#notif").classList.remove("show"), 7000);
 $("#notif").onclick = () => { $("#notif").classList.remove("show"); openApp("notes"); };
 </script>

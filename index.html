@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=6">
+<link rel="stylesheet" href="css/motion.css?v=7">
 <style>
 :root{
   --ink:#1f1c18; --ink-2:#4d4740; --ink-3:#7c746a;
@@ -195,6 +195,20 @@ body.hide-ui .ui:not(.keep){translate:0 10px;filter:blur(6px)}
   body.pre .ui{translate:none;filter:none}
   .years .ind{transition:none}
 }
+
+/* ---------- guided tour bar (sits where the tagline is) ---------- */
+.tourbar{top:72px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:6px 6px 8px 16px;border-radius:999px;font-size:13.5px;max-width:calc(100vw - 32px);overflow:hidden;animation:pop-in .6s var(--spring) both}
+.tourbar[hidden]{display:none}
+body.touring .tagline{opacity:0;pointer-events:none}
+.tb-n{color:var(--ink-3);font-variant-numeric:tabular-nums;margin-right:4px}.tb-n b{color:var(--ink)}
+.tb-t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px;margin-right:6px}
+.tourbar button{border:0;background:rgba(255,255,255,.65);height:30px;min-width:30px;border-radius:999px;cursor:pointer;padding:0 10px;font-size:13px;transition:scale .45s var(--spring-snap),background-color .2s}
+.tourbar button:hover{background:#fff}.tourbar button:active{scale:.92}
+.tourbar .tb-next{background:var(--ink);color:#fff;font-weight:600}.tourbar .tb-next:hover{background:#000}
+.tb-prog{position:absolute;left:16px;right:16px;bottom:3px;height:2px;border-radius:2px;background:rgba(0,0,0,.08);overflow:hidden}
+.tb-prog i{display:block;height:100%;width:0;background:var(--ink)}
+@keyframes tbp{from{width:0}to{width:100%}}
+@media (max-width:720px){.tourbar{top:66px;padding-left:12px}.tb-t{max-width:130px}.tb-n{display:none}}
 </style>
 </head>
 <body class="pre">
@@ -218,6 +232,15 @@ body.hide-ui .ui:not(.keep){translate:0 10px;filter:blur(6px)}
     <a class="round glass keep-sm" href="https://x.com/itsUtsav2020" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L2 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></svg></a>
   </nav>
 </header>
+<div class="ui tourbar glass" id="tourbar" hidden role="group" aria-label="Guided tour">
+  <span class="tb-n"><b id="tbN">1</b>/<span id="tbM">14</span></span>
+  <span class="tb-t" id="tbT"></span>
+  <button id="tbPrev" aria-label="Previous stop">←</button>
+  <button id="tbPlay" aria-label="Pause or play the tour">❚❚</button>
+  <button class="tb-next" id="tbNext">Next →</button>
+  <button id="tbX" aria-label="End the tour">✕</button>
+  <i class="tb-prog"><i id="tbP"></i></i>
+</div>
 <div class="ui tagline glass">I build tools out of my own frustrations, break them, and fix them in public. Built this one by talking.</div>
 
 <div class="ui hello glass" id="hello">Hello, I'm Utsav.</div>
@@ -242,10 +265,10 @@ body.hide-ui .ui:not(.keep){translate:0 10px;filter:blur(6px)}
 </section>
 <div id="tip" class="glass"></div>
 
-<div id="mac" aria-hidden="true"><iframe id="macframe" title="Utsav's laptop" loading="lazy"></iframe></div>
+<div id="mac" aria-hidden="true"><iframe id="macframe" title="Utsav's laptop"></iframe></div>
 <button id="back">Back to the desk</button>
 
-<script src="js/songs.js?v=6"></script>
+<script src="js/songs.js?v=7"></script>
 <script>
 /* -------- one music player for the room and the laptop -------- */
 window.SharedPlayer = window.createPlayer();
@@ -279,7 +302,7 @@ splitText(document.querySelector("#intro h1"), "Utsav", true);
 /* -------- story: one stop per year -------- */
 window.STOPS = [
   { key:"home", label:"", when:"", age:"", title:"Welcome in",
-    text:"Scroll or drag through the years of my life. The laptop on my desk is real, by the way. Open it.",
+    text:"Scroll or drag through the years of my life, or take the tour and I'll walk you through everything. The laptop on my desk is real, by the way.",
     acts:[{t:"▶ 3-minute tour", tour:true, dark:true},{t:"Open my laptop", laptop:true}] },
   { key:"2021", label:"2021", when:"April 2021", age:"Class 10", title:"The exam that never happened",
     text:"The second wave cancelled my board exams. Everyone felt relief. I felt something had been taken away, and I still carry that, just more quietly." },
@@ -290,9 +313,9 @@ window.STOPS = [
   { key:"2026", label:"2026", when:"2026", age:"Building for real", title:"I started shipping",
     text:"YouTube kept stealing my study hours, so I built FocusSpace. Friends were scared of placement tests, so I built Play2Place. My own numbers lied to me once, so I built Upgrade Gate.",
     acts:[{t:"FocusSpace ↗", href:"https://chromewebstore.google.com/detail/focusspace-intent-driven/ilakannjmakocgmilmndfojkaonbigkk"},{t:"Play2Place ↗", href:"https://play2place.online"},{t:"Upgrade Gate ↗", href:"https://web-production-00176.up.railway.app"}] },
-  { key:"now", label:"Now", when:"November 2026", age:"Open to work", title:"Talking, not typing",
-    text:"Two months on Wispr Flow, every day. It still trips on Indian names, so I'm testing a fix. I want to help more people in India hit that 'can't go back' moment. Full-time or internship, Bangalore or travel.",
-    acts:[{t:"Open my laptop", laptop:true, dark:true},{t:"utsav.udk@gmail.com", href:"mailto:utsav.udk@gmail.com"}] }
+  { key:"now", label:"Now", when:"November 2026", age:"Open to work", title:"Shipping every week",
+    text:"60 days on Wispr Flow, 102,899 words spoken. I ship something every week, jump into hackathons, and build with AI by talking. Next, I want to help more people in India hit that 'can't go back' moment. Full-time or internship, Bangalore or travel.",
+    acts:[{t:"▶ Take the tour", tour:true, dark:true},{t:"Open my laptop", laptop:true},{t:"utsav.udk@gmail.com", href:"mailto:utsav.udk@gmail.com"}] }
 ];
 </script>
 
@@ -741,7 +764,7 @@ addMemory("2026", p2Tex, [0,1.66,-2.05], [0,0,0], [.5,.33], { href:"https://play
 addMemory("2026", ugTex, [.8,1.15,-1.95], [0,-.35,0], [.5,.33], { href:"https://web-production-00176.up.railway.app", tip:"Open Upgrade Gate" });
 photoMemory("2026", "photos/5.jpg", "2 a.m. builds", "Most of it happened here, at night.", [-1.4,1.12,-1.75], [0,.7,0], [.36,.46]);
 photoMemory("now", "photos/6.jpg", "Still figuring it out", "and living the life while I do.", [0,1.86,-2.95], [0,0,0], [.36,.47]);
-addMemory("now", memoryTex({ kicker:"Wispr Flow · day 60", title:"It still misspells names", body:"Wrong→right pairs exist. What's missing: proof the fix worked, said out loud." }, { accent:"#c2410c" }), [-1.05,1.55,-2.95], [0,.15,0], [.62,.41]);
+addMemory("now", memoryTex({ kicker:"Wispr Flow · day 60", title:"Ship. Every. Week.", body:"Build it, join a hackathon, talk to AI, ship again. 102,899 words spoken so far." }, { accent:"#c2410c" }), [-1.05,1.55,-2.95], [0,.15,0], [.62,.41]);
 addMemory("now", memoryTex({ kicker:"Campaign I'd run", title:"Say the full idea.", body:"Builders type lazy prompts. Say the whole thing instead. Post your before and after." }, { accent:"#1d6b58" }), [1.05,1.6,-2.95], [0,-.15,0], [.62,.41]);
 
 /* ---------- camera stops ---------- */
@@ -774,7 +797,7 @@ function setStop(i, instant=false){
   requestAnimationFrame(()=>document.body.style.setProperty("--hello-b", (innerHeight - card.getBoundingClientRect().top + 48) + "px"));
   const acts = $("#ca"); acts.innerHTML = "";
   (s.acts||[]).forEach(a => { const el = document.createElement(a.href ? "a" : "button"); el.className = "pill" + (a.dark ? " dark" : ""); el.textContent = a.t; el.style.setProperty("--i", acts.children.length);
-    if (a.href){ el.href = a.href; if (!a.href.startsWith("mailto")) { el.target = "_blank"; el.rel = "noopener"; } } else el.onclick = () => openLaptop(!!a.tour); acts.appendChild(el); });
+    if (a.href){ el.href = a.href; if (!a.href.startsWith("mailto")) { el.target = "_blank"; el.rel = "noopener"; } } else el.onclick = () => a.tour ? TourAPI.start() : openLaptop(); acts.appendChild(el); });
   for (const [k, arr] of Object.entries(memories)) arr.forEach(o => o.on = (k === s.key));
 }
 const yearsEl = $("#years");
@@ -811,21 +834,72 @@ canvas.addEventListener("click", e => { if (moved || macOpen) return; const o = 
 
 /* ---------- laptop: fly in, then open the real desktop ---------- */
 let macOpen = false, flying = false;
-function openLaptop(tour){
-  tour = tour === true;
-  if (macOpen || flying) return; flying = true; $("#tip").classList.remove("on");
+function frameReady(fr){ try { return !!fr.contentWindow.tourShow && fr.contentDocument.readyState === "complete"; } catch(e){ return false; } }
+function openLaptop(onOpen){
+  if (typeof onOpen !== "function") { onOpen = null; if (window.TourAPI && TourAPI.active) TourAPI.end(); }
+  if (macOpen || flying) return;
+  flying = true; $("#tip").classList.remove("on");
   document.body.classList.add("hide-ui"); if (person) person.visible = false;
   goalPos.set(...POSES.laptop.p); goalTgt.set(...POSES.laptop.t);
-  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=6";
-  if (tour){ // start the guided tour once the laptop page is ready
-    const go = () => { try { fr.contentWindow.startTour(); } catch(e){} };
-    let ready = false; try { ready = !!fr.contentWindow.startTour && fr.contentDocument.readyState === "complete"; } catch(e){}
-    if (ready) setTimeout(go, reduce ? 0 : 1300); else fr.addEventListener("load", () => setTimeout(go, 400), { once:true });
-  }
-  setTimeout(() => { $("#mac").classList.add("open"); $("#mac").setAttribute("aria-hidden","false"); macOpen = true; flying = false; $("#back").focus(); }, reduce ? 0 : 1300);
+  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=7";
+  const whenReady = cb => { if (frameReady(fr)) cb(); else fr.addEventListener("load", () => setTimeout(cb, 300), { once:true }); };
+  setTimeout(() => { $("#mac").classList.add("open"); $("#mac").setAttribute("aria-hidden","false"); macOpen = true; flying = false; $("#back").focus();
+    whenReady(() => { if (onOpen) onOpen(); else { try { fr.contentWindow.tourHide(); } catch(e){} } }); }, reduce ? 0 : 1300);
 }
-function closeLaptop(){ $("#mac").classList.remove("open"); $("#mac").setAttribute("aria-hidden","true"); macOpen = false; document.body.classList.remove("hide-ui"); if (person) person.visible = true; setStop(stop); }
-$("#back").onclick = closeLaptop;
+function closeLaptop(fromTour){ if (fromTour !== true && window.TourAPI) TourAPI.end(); $("#mac").classList.remove("open"); $("#mac").setAttribute("aria-hidden","true"); macOpen = false; document.body.classList.remove("hide-ui"); if (person) person.visible = true; setStop(stop); }
+$("#back").onclick = () => closeLaptop();
+/* ---------- guided tour: the years in the room, then every app on the laptop ---------- */
+const TOUR = [
+  { stop:1, t:"2021 · The exam that never happened", ms:9000 },
+  { stop:2, t:"2023 · A new door", ms:9000 },
+  { stop:3, t:"2024 · The semester that tested me", ms:8000 },
+  { stop:4, t:"2026 · I started shipping", ms:10000 },
+  { stop:5, t:"Now · Shipping every week", ms:9000 },
+  { app:"story", t:"How I built this", d:"Ideas in my head → Wispr Flow → this site.", ms:24000 },
+  { app:"ai",    t:"My AI toolkit", d:"I can build anything with AI: products, campaigns, dashboards, videos.", ms:14000 },
+  { app:"made",  t:"My Wispr Flow", d:"Real numbers: 102,899 words spoken, 144 wpm, top 0.2%.", ms:14000 },
+  { app:"fs",    t:"FocusSpace", d:"My Chrome extension that keeps YouTube on what you came to learn.", ms:12000 },
+  { app:"p2p",   t:"Play2Place", d:"Placement practice that feels like a game.", ms:10000 },
+  { app:"gate",  t:"Upgrade Gate", d:"Built solo at a hackathon. Find the bug yourself.", ms:11000 },
+  { app:"ideas", t:"Ideas for Flow", d:"My recommendations for Wispr, each one buildable.", ms:16000 },
+  { app:"camp",  t:"Say the full idea", d:"The first growth campaign I'd run in India.", ms:12000 },
+  { app:"mail",  t:"Let's talk", d:"Full-time or internship. Bangalore, and happy to travel.", ms:9000 }
+];
+window.TourAPI = (() => {
+  let i = -1, playing = true, timer = null, endAt = 0, left = 0;
+  const bar = $("#tourbar"), fr = () => $("#macframe");
+  const call = (fn, ...a) => { try { fr().contentWindow[fn](...a); } catch(e){} };
+  const progress = ms => { const p = $("#tbP"); p.style.animation = "none"; void p.offsetWidth; p.style.animation = `tbp ${ms}ms linear forwards`; p.style.animationPlayState = playing ? "running" : "paused"; };
+  const arm = ms => { clearTimeout(timer); left = ms; endAt = performance.now() + ms; if (playing) timer = setTimeout(() => go(i + 1), ms); };
+  function ui(st){
+    document.body.classList.add("touring"); bar.hidden = false;
+    $("#tbN").textContent = i + 1; $("#tbM").textContent = TOUR.length; $("#tbT").textContent = st.t;
+    $("#tbNext").textContent = i === TOUR.length - 1 ? "Finish ✓" : "Next →"; $("#tbPlay").textContent = playing ? "❚❚" : "▶";
+  }
+  function go(n){
+    if (n < 0) n = 0;
+    if (n >= TOUR.length){ end(true); return; }
+    clearTimeout(timer); i = n; const st = TOUR[i]; ui(st);
+    if (st.stop !== undefined){
+      if (macOpen) closeLaptop(true);
+      setStop(st.stop); progress(st.ms); arm(st.ms);
+    } else {
+      const show = () => { if (TOUR[i] !== st) return; call("tourShow", { app:st.app, t:st.t, d:st.d, n:i + 1, total:TOUR.length, ms:st.ms, playing, last:i === TOUR.length - 1 }); arm(st.ms); };
+      if (macOpen) show(); else openLaptop(show);
+    }
+  }
+  function toggle(){
+    if (i < 0) return; playing = !playing;
+    if (playing) arm(left); else { clearTimeout(timer); left = Math.max(0, endAt - performance.now()); }
+    $("#tbPlay").textContent = playing ? "❚❚" : "▶"; $("#tbP").style.animationPlayState = playing ? "running" : "paused"; call("tourPlaying", playing);
+  }
+  function end(done){
+    if (i < 0) return; clearTimeout(timer); i = -1; bar.hidden = true; document.body.classList.remove("touring"); call("tourHide", done === true);
+  }
+  $("#tbNext").onclick = () => go(i + 1); $("#tbPrev").onclick = () => go(i - 1); $("#tbPlay").onclick = toggle; $("#tbX").onclick = () => end(false);
+  return { start(){ playing = true; go(0); }, next(){ go(i + 1); }, prev(){ go(i - 1); }, toggle, end, get active(){ return i >= 0; }, get index(){ return i; } };
+})();
+
 addEventListener("message", e => { if (e.data === "close-laptop" && macOpen) closeLaptop(); });
 
 /* eye: hide ui to just look at the room */
