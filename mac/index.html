@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=7">
+<link rel="stylesheet" href="css/motion.css?v=8">
 <style>
 :root{
   --ink:#1d1d1f; --ink-2:#55555c; --ink-3:#8a8a92; --line:rgba(0,0,0,.08);
@@ -737,7 +737,7 @@ input[type=range]{width:100%;accent-color:#ffb000}
 <div class="notif" id="notif" role="status"><span class="ic i-notes"></span><div><b>Welcome to my Mac 👋</b><span>Start with Notes, or tap the Wispr Flow icon in the Dock to see how I built this by voice.</span></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/songs.js?v=7"></script>
+<script src="js/songs.js?v=8"></script>
 <script>
 /* ============ helpers (shared with the app builders) ============ */
 const $ = (s, r=document) => r.querySelector(s);
@@ -895,7 +895,7 @@ BUILD.notes = (el, win) => {
       <p>Lesson I keep relearning: read the answers before you trust the number.</p>` },
     { t:"What I'd do at Wispr", d:"week one", s:"Ideas, a small test, one campaign", body:`
       <h1>What I'd do at Wispr</h1>
-      <ul><li><b>Bring my ideas for Flow.</b> Five recommendations, each built on something Flow already has, so each one can ship. <button class="lk" data-app="ideas">See them →</button></li>
+      <ul><li><b>Bring my ideas for Flow.</b> Six things I'd love as a daily user: reminders from meetings, notes from any link, and more. Each one builds on something Flow already has. <button class="lk" data-app="ideas">See them →</button></li>
       <li><b>Find the task that makes voice stick.</b> 5–8 student builders, one daily task (describing an app change to an AI tool), typing vs free dictation vs Flow. Measure time to a usable result, and who is still using voice a week later.</li>
       <li><b>Run one campaign: “Say the full idea.”</b> Builders type lazy prompts; say the whole thing instead and post the before/after. <button class="lk" data-app="camp">Make your post →</button></li></ul>` },
     { t:"How I built this", d:"by voice", s:"Spoken first, coded second", body:`
@@ -1134,16 +1134,17 @@ BUILD.ai = (el) => {
 /* ---- Ideas for Flow: my recommendations, each built on something Flow already has ---- */
 BUILD.ideas = (el) => {
   const IDEAS = [
-    { on:"Dictionary", t:"Say a word once, Flow learns it", idea:"Tap a word and say it once. Flow keeps how you say it, then runs a 3-second check so you know it stuck.", how:"A short voice sample on each Dictionary entry, plus a quick replay test.", why:"Names, places and Hinglish words, learned in seconds." },
-    { on:"Style", t:"Prompt mode for AI builders", idea:"When I talk into Claude, ChatGPT or Cursor, Flow shapes a long spoken idea into a clear brief: goal, context, constraints.", how:"Flow already counts AI prompts in Insights (147 of mine). Add a prompt style that switches on there.", why:"Builders say the full idea and get better results first time." },
-    { on:"Notes", t:"Lecture to revision", idea:"After a lecture, speak your takeaways. Flow Notes turns them into revision reminders on day 1, 3 and 7.", how:"Flow Notes plus a simple spaced-repetition schedule. It pairs with my FocusSpace.", why:"Students are a huge share of India's new builders." },
-    { on:"Leaderboard + free month", t:"Campus voice week", idea:"A week-long challenge at a college: most words spoken wins Pro, everyone shares their streak.", how:"Flow's Leaderboard and 'Get a free month' referrals already exist. Add a page per campus.", why:"Growth that spreads student to student." },
-    { on:"Insights · Share", t:"Weekly voice wrap", idea:"Every Sunday, a share card: words spoken, streak, time saved. Ready for LinkedIn and X.", how:"Insights already has a Share button. Make it weekly and automatic.", why:"Every share is a real person showing Flow to their friends." }
+    { on:"Notetaker", t:"Deadlines and reminders from my meetings", idea:"After a call, Flow pulls out the action items and deadlines, then sends me a short “due soon” note in the morning.", how:"Notetaker already has the transcript. Find dates and to-dos in it, and add one daily reminder.", why:"Nothing I agreed to in a meeting slips through." },
+    { on:"Dictation", t:"Save what matters, as I talk", idea:"When I say something like “submit the report by Friday” in a chat or a prompt, Flow quietly asks: save this to my notes?", how:"Spot dates and tasks in what I dictate, and offer one tap to save them.", why:"My important stuff lands in one place, without me organising it." },
+    { on:"Scratchpad", t:"A note from any link", idea:"Paste a YouTube video, an article, or any link into Scratchpad, and get a clean note with the key points.", how:"Read the page or the video transcript, summarise it, and save it as a Scratchpad note.", why:"Scratchpad becomes my notebook, not just a place to type." },
+    { on:"Notes", t:"Revision that comes back to me", idea:"From a lecture or a link note, Flow makes quick revision cards and brings them back on day 1, 3 and 7.", how:"Flow Notes plus a simple spaced-repetition schedule. It pairs with my FocusSpace.", why:"I actually remember what I learned." },
+    { on:"Style", t:"Prompt mode for AI builders", idea:"When I talk into Claude, ChatGPT or Cursor, Flow shapes a long spoken idea into a clear brief: goal, context, constraints.", how:"Flow already counts AI prompts in Insights (147 of mine). Add a prompt style that switches on there.", why:"I say the full idea and get a better result the first time." },
+    { on:"Dictionary", t:"Say a word once, Flow learns it", idea:"Tap a word and say it once. Flow keeps how I say it, then runs a 3-second check so I know it stuck.", how:"A short voice sample on each Dictionary entry, plus a quick replay test.", why:"Names, places and Hinglish words, learned in seconds." }
   ];
   el.innerHTML = `<div class="ideas">
-    <span class="chip live">My recommendations</span>
+    <span class="chip live">As a daily user</span>
     <h2 class="h" style="margin:10px 0 6px">Ideas for <i>Flow</i></h2>
-    <p class="muted" style="margin:0 0 16px">Things I'd love to build with the Wispr team. Each one sits on top of something Flow already does, so each one can ship.</p>
+    <p class="muted" style="margin:0 0 16px">What I'd love next, after 60 days and 102,899 words. Each one sits on something Flow already has, so each one can ship.</p>
     <div class="idea-list">${IDEAS.map((x,n) => `<article class="idea"><div class="idea-n">${n+1}</div><div>
       <small>Builds on: ${x.on}</small><h3>${x.t}</h3><p>${x.idea}</p>
       <div class="idea-meta"><div><b>How it could be built</b>${x.how}</div><div><b>Why it matters</b>${x.why}</div></div></div></article>`).join("")}</div>

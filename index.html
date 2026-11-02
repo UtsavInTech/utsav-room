@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=7">
+<link rel="stylesheet" href="css/motion.css?v=8">
 <style>
 :root{
   --ink:#1f1c18; --ink-2:#4d4740; --ink-3:#7c746a;
@@ -268,7 +268,7 @@ body.touring .tagline{opacity:0;pointer-events:none}
 <div id="mac" aria-hidden="true"><iframe id="macframe" title="Utsav's laptop"></iframe></div>
 <button id="back">Back to the desk</button>
 
-<script src="js/songs.js?v=7"></script>
+<script src="js/songs.js?v=8"></script>
 <script>
 /* -------- one music player for the room and the laptop -------- */
 window.SharedPlayer = window.createPlayer();
@@ -841,7 +841,7 @@ function openLaptop(onOpen){
   flying = true; $("#tip").classList.remove("on");
   document.body.classList.add("hide-ui"); if (person) person.visible = false;
   goalPos.set(...POSES.laptop.p); goalTgt.set(...POSES.laptop.t);
-  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=7";
+  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=8";
   const whenReady = cb => { if (frameReady(fr)) cb(); else fr.addEventListener("load", () => setTimeout(cb, 300), { once:true }); };
   setTimeout(() => { $("#mac").classList.add("open"); $("#mac").setAttribute("aria-hidden","false"); macOpen = true; flying = false; $("#back").focus();
     whenReady(() => { if (onOpen) onOpen(); else { try { fr.contentWindow.tourHide(); } catch(e){} } }); }, reduce ? 0 : 1300);
@@ -861,7 +861,7 @@ const TOUR = [
   { app:"fs",    t:"FocusSpace", d:"My Chrome extension that keeps YouTube on what you came to learn.", ms:12000 },
   { app:"p2p",   t:"Play2Place", d:"Placement practice that feels like a game.", ms:10000 },
   { app:"gate",  t:"Upgrade Gate", d:"Built solo at a hackathon. Find the bug yourself.", ms:11000 },
-  { app:"ideas", t:"Ideas for Flow", d:"My recommendations for Wispr, each one buildable.", ms:16000 },
+  { app:"ideas", t:"Ideas for Flow", d:"What I'd love next as a daily user: reminders, notes from any link, and more.", ms:16000 },
   { app:"camp",  t:"Say the full idea", d:"The first growth campaign I'd run in India.", ms:12000 },
   { app:"mail",  t:"Let's talk", d:"Full-time or internship. Bangalore, and happy to travel.", ms:9000 }
 ];
