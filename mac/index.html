@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=3">
+<link rel="stylesheet" href="css/motion.css?v=4">
 <style>
 :root{
   --ink:#1d1d1f; --ink-2:#55555c; --ink-3:#8a8a92; --line:rgba(0,0,0,.08);
@@ -635,8 +635,15 @@ input[type=range]{width:100%;accent-color:#ffb000}
 .win.fresh.show .wb > *{animation:blur-in .6s .08s var(--ease-out) both}
 
 @media (max-width:720px){
-  .dock{--ic:46px;translate:0 0;animation-name:dock-up-sm}
+  /* narrow screens: icons shrink so the whole dock fits with no scrollbar,
+     which leaves room above it for the magnified icon */
+  .dock{--ic:min(46px, calc((100vw - 150px) / 16));left:50%;right:auto;translate:-50% 0;overflow:visible;justify-content:center;gap:4px;padding:6px 7px;border-radius:20px}
+}
+@media (max-width:520px){
+  /* phones: a scrolling dock, and no hover magnification (touch has no hover) */
+  .dock{--ic:46px;left:6px;right:6px;translate:0 0;overflow-x:auto;justify-content:flex-start;animation-name:dock-up-sm}
   @keyframes dock-up-sm{from{translate:0 140%;opacity:0}}
+  .dock .ic{scale:1!important;margin-inline:0!important}
   .win{transform-origin:50% 100%}
 }
 @media (prefers-reduced-motion:reduce){
@@ -671,7 +678,7 @@ input[type=range]{width:100%;accent-color:#ffb000}
 <div class="notif" id="notif" role="status"><span class="ic i-notes"></span><div><b>Welcome to my Mac 👋</b><span>Start with Notes, or tap the Wispr Flow icon in the Dock to see how I built this by voice.</span></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/songs.js?v=3"></script>
+<script src="js/songs.js?v=4"></script>
 <script>
 /* ============ helpers (shared with the app builders) ============ */
 const $ = (s, r=document) => r.querySelector(s);
