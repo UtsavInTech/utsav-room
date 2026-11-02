@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=5">
+<link rel="stylesheet" href="css/motion.css?v=6">
 <style>
 :root{
   --ink:#1f1c18; --ink-2:#4d4740; --ink-3:#7c746a;
@@ -245,7 +245,7 @@ body.hide-ui .ui:not(.keep){translate:0 10px;filter:blur(6px)}
 <div id="mac" aria-hidden="true"><iframe id="macframe" title="Utsav's laptop" loading="lazy"></iframe></div>
 <button id="back">Back to the desk</button>
 
-<script src="js/songs.js?v=5"></script>
+<script src="js/songs.js?v=6"></script>
 <script>
 /* -------- one music player for the room and the laptop -------- */
 window.SharedPlayer = window.createPlayer();
@@ -816,7 +816,7 @@ function openLaptop(tour){
   if (macOpen || flying) return; flying = true; $("#tip").classList.remove("on");
   document.body.classList.add("hide-ui"); if (person) person.visible = false;
   goalPos.set(...POSES.laptop.p); goalTgt.set(...POSES.laptop.t);
-  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=5";
+  const fr = $("#macframe"); if (!fr.src) fr.src = "mac/?v=6";
   if (tour){ // start the guided tour once the laptop page is ready
     const go = () => { try { fr.contentWindow.startTour(); } catch(e){} };
     let ready = false; try { ready = !!fr.contentWindow.startTour && fr.contentDocument.readyState === "complete"; } catch(e){}

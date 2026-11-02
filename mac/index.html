@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/motion.css?v=5">
+<link rel="stylesheet" href="css/motion.css?v=6">
 <style>
 :root{
   --ink:#1d1d1f; --ink-2:#55555c; --ink-3:#8a8a92; --line:rgba(0,0,0,.08);
@@ -539,7 +539,7 @@ input[type=range]{width:100%;accent-color:#ffb000}
 .wf-chart div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}
 .wf-chart i{width:100%;border-radius:6px 6px 2px 2px;background:linear-gradient(#7c5cff,#2a1b5e)}
 .wf-chart span{font-size:11px;color:var(--ink-3)}
-.wf-bar{display:grid;grid-template-columns:78px 1fr 50px;gap:8px;align-items:center;font-size:12.5px;margin:7px 0}
+.wf-bar{display:grid;grid-template-columns:minmax(78px,auto) 1fr auto;gap:8px;align-items:center;font-size:12.5px;margin:7px 0}
 .wf-bar div{height:8px;border-radius:5px;background:#f0eee8;overflow:hidden}.wf-bar i{display:block;height:100%;background:#1d1828;border-radius:5px}
 .wf-bar b{text-align:right;font-weight:600}
 .wf-note{font-size:12.5px;color:var(--ink-3);margin:10px 0 0}
@@ -701,7 +701,7 @@ input[type=range]{width:100%;accent-color:#ffb000}
 <div class="notif" id="notif" role="status"><span class="ic i-notes"></span><div><b>Welcome to my Mac 👋</b><span>Start with Notes, or tap the Wispr Flow icon in the Dock to see how I built this by voice.</span></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/songs.js?v=5"></script>
+<script src="js/songs.js?v=6"></script>
 <script>
 /* ============ helpers (shared with the app builders) ============ */
 const $ = (s, r=document) => r.querySelector(s);
@@ -727,7 +727,6 @@ const ICON = {
   p2p:`<span class="ic" style="background:#fff"><img src="assets/play2place.png" alt="" style="width:86%;height:86%;object-fit:contain"></span>`,
   flow:`<span class="ic i-flow"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/></svg></span>`,
   gate:`<span class="ic i-gate"><svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="20" rx="3" fill="#0b2a23"/><circle cx="12" cy="6.5" r="2" fill="#ff5f57"/><circle cx="12" cy="12" r="2" fill="#febc2e" opacity=".5"/><circle cx="12" cy="17.5" r="2" fill="#4ade80"/></svg></span>`,
-  pay:`<span class="ic i-pay">₹</span>`,
   camp:`<span class="ic i-camp"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M3 10v4h4l8 5V5L7 10H3z"/><path d="M18.5 8.5a5 5 0 0 1 0 7"/></svg></span>`,
   trash:`<span class="ic real"><img src="assets/icons/Trash.png" alt=""></span>`,
   atm:`<span class="ic real"><img src="assets/icons/Settings.png" alt=""></span>`
@@ -748,7 +747,6 @@ const APPS = [
   { id:"p2p", name:"Play2Place", w:560, h:600 },
   { id:"flow", name:"Say It", w:700, h:660 },
   { id:"gate", name:"Upgrade Gate", w:660, h:640 },
-  { id:"pay", name:"Why pay?", w:580, h:640 },
   { id:"camp", name:"Say the Full Idea", w:640, h:660 },
   { sep:true },
   { id:"trash", name:"Trash", w:420, h:300 },
@@ -860,7 +858,7 @@ BUILD.notes = (el, win) => {
     { t:"What I'd do at Wispr", d:"week one", s:"Names, a small test, one campaign", body:`
       <h1>What I'd do at Wispr</h1>
       <ul><li><b>Fix the name problem people feel.</b> Wispr still types similar-sounding words for some Indian names. Correction pairs exist; I'd add a spoken check that proves the fix worked. <button class="lk" data-app="flow">Try my concept →</button></li>
-      <li><b>Test why students would pay.</b> 5–8 student builders, one daily task, typing vs free dictation vs Flow, measure time to a usable result. <button class="lk" data-app="pay">Plug in your own numbers →</button></li>
+      <li><b>Find the task that makes voice stick.</b> 5–8 student builders, one daily task (describing an app change to an AI tool), typing vs free dictation vs Flow. Measure time to a usable result, and who is still using voice a week later.</li>
       <li><b>Run one campaign: “Say the full idea.”</b> Builders type lazy prompts; say the whole thing instead and post the before/after. <button class="lk" data-app="camp">Make your post →</button></li></ul>` },
     { t:"How I built this", d:"by voice", s:"Spoken first, coded second", body:`
       <h1>How I built this</h1>
@@ -1163,38 +1161,6 @@ BUILD.flow = (el, win) => {
   win._cleanup = () => { rec && rec.stop(); nrec && nrec.stop(); };
 };
 
-/* ---- Why pay ---- */
-BUILD.pay = (el) => {
-  el.innerHTML = `<div class="pay">
-    <span class="chip plan">My hypothesis · not tested yet</span>
-    <h2 class="h" style="margin-top:8px">Would <i>you</i> pay ₹320 a month for voice?</h2>
-    <p class="muted" style="margin:0">Honestly, my first answer was no. Free dictation exists and lots of people type fast. So instead of guessing, plug in your own day. (₹320 is Wispr Flow's advertised India price when billed yearly.)</p>
-    <div class="sl"><label for="s1">How much you write a day <b id="o1"></b></label><input type="range" id="s1" min="200" max="6000" step="100" value="2000"></div>
-    <div class="sl"><label for="s2">Your typing speed <b id="o2"></b></label><input type="range" id="s2" min="15" max="90" step="5" value="35"></div>
-    <div class="sl"><label for="s3">Your speaking speed <b id="o3"></b></label><input type="range" id="s3" min="80" max="180" step="10" value="130"></div>
-    <div class="sl"><label for="s4">Time spent fixing mistakes after speaking <b id="o4"></b></label><input type="range" id="s4" min="0" max="80" step="5" value="25"></div>
-    <div class="out3"><div><b id="r1"></b><span>saved per day</span></div><div><b id="r2"></b><span>saved per month</span></div><div><b id="r3"></b><span>you'd pay per hour saved</span></div></div>
-    <p id="verdict" style="font-weight:600"></p>
-    <h3 style="margin:18px 0 0;font-size:15px">How I'd actually test it</h3>
-    <ol class="steps">
-      <li>5–8 student builders I can reach. Not “India”, just a real start.</li>
-      <li>One repeated task: describing an app change to an AI coding tool.</li>
-      <li>Typing vs their free dictation vs Wispr Flow, in a random order.</li>
-      <li>Measure time to a usable result, including fixes. Then see what they pick the next day.</li>
-      <li>Show the price only at the end. A “yes” isn't a purchase.</li>
-    </ol>
-  </div>`;
-  const upd = () => {
-    const w=+$("#s1",el).value, t=+$("#s2",el).value, s=+$("#s3",el).value, f=+$("#s4",el).value;
-    $("#o1",el).textContent=w.toLocaleString("en-IN")+" words"; $("#o2",el).textContent=t+" wpm"; $("#o3",el).textContent=s+" wpm"; $("#o4",el).textContent=f+"%";
-    const typeMin=w/t, speakMin=(w/s)*(1+f/100), saved=Math.max(0,typeMin-speakMin), month=saved*22/60;
-    $("#r1",el).textContent=Math.round(saved)+" min"; $("#r2",el).textContent=month.toFixed(1)+" hrs";
-    $("#r3",el).textContent= month>0.05 ? "₹"+Math.round(320/month) : "—";
-    $("#verdict",el).textContent = month<1 ? "For you, it's probably not worth paying. That's a real answer too." : 320/month < 100 ? "That's cheaper than a cup of chai per hour saved. Now the question is habit, not price." : "Worth it only if the habit sticks. That's what I'd test.";
-  };
-  $$("input", el).forEach(i=>i.oninput=upd); upd();
-};
-
 /* ---- Campaign ---- */
 BUILD.camp = (el) => {
   el.innerHTML = `<div class="camp">
@@ -1237,7 +1203,7 @@ BUILD.msg = (el) => {
   const QA = [
     ["Are you available?", "Yes. Full-time or internship, and I can start soon. Happy to be in Bangalore, and I'm willing to travel."],
     ["Why Wispr?", "I already use it every day. I've spent two months noticing where it's great and where it trips on Indian names. I'd love to work on getting more people here to that 'can't go back' moment."],
-    ["What would you do first?", "Run the small test from my “Why pay?” app with real students in week one, then launch “Say the full idea” in builder communities and measure who's still speaking a week later."],
+    ["What would you do first?", "Run a small test with real student builders in week one, typing vs speaking the same task, then launch “Say the full idea” in builder communities and measure who's still speaking a week later."],
     ["What have you shipped?", "FocusSpace (Chrome extension), Play2Place (placement practice, paid in ₹ via UPI) and Upgrade Gate (a hackathon build). All built and shipped solo."],
     ["How did you build this?", "Mostly by talking. I described what I wanted through Wispr Flow, out loud and messy, then corrected what came back the same way."],
     ["How do I reach you?", `Email <a href="mailto:utsav.udk@gmail.com">utsav.udk@gmail.com</a> · <a href="https://www.linkedin.com/in/utsav-tech/" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/UtsavInTech" target="_blank" rel="noopener">GitHub</a> · <a href="https://x.com/itsUtsav2020" target="_blank" rel="noopener">X</a>`]
@@ -1366,13 +1332,15 @@ BUILD.build = (el, win) => {
 
 
 
-/* ---- Wispr Flow: my real numbers from the Flow app on this Mac (recent history, 23 Oct – 1 Nov 2026) ---- */
-const FLOW = { words:17686, wpm:158, dictations:100, days:10, meetings:6, dict:10,
+/* ---- Wispr Flow: my real numbers. Totals are from Flow's Insights screen on 2 Nov 2026;
+   the daily chart and per-app split come from my local Flow history (25 Oct – 1 Nov). ---- */
+const FLOW = { words:102899, wpm:144, top:"0.2%", fixes:25541, corrected:16790, dictFixes:8751, streak:11, longest:12, appsUsed:23, meetings:6,
+  kinds:[["Other tasks",590,75],["AI prompts",147,24],["Personal messages",9,1],["Documents",1,1]],
   week:[["25",2454],["26",1120],["27",1124],["28",1253],["29",919],["30",410],["31",1],["1",6924]],
   apps:[["Claude",6062],["Flow notes",3385],["Codex",3187],["Terminal",3040],["Chrome",2011]] };
 BUILD.made = (el, win) => {
   const max = Math.max(...FLOW.week.map(x => x[1])), appMax = FLOW.apps[0][1];
-  const fmt = n => n.toLocaleString("en-IN");
+  const fmt = n => n.toLocaleString("en-US");
   el.style.overflow = "hidden";
   el.innerHTML = `<div class="wf">
     <aside class="wf-side"><div class="wf-brand"><img src="assets/wispr-flow-icon.png" alt="">Flow</div>
@@ -1380,12 +1348,13 @@ BUILD.made = (el, win) => {
       <span class="sp"></span><button data-open="story">▶ How I built this</button><a href="https://wisprflow.ai" target="_blank" rel="noopener" class="wf-dl">Download Wispr Flow ↗</a></aside>
     <main class="wf-main" id="wfm"></main></div>`;
   const views = {
-    home: () => `<h1>Welcome back, Utsav</h1><p class="wf-sub">My real numbers from Wispr Flow on this Mac, 23 Oct – 1 Nov 2026.</p>
-      <div class="wf-stats"><div><b>${fmt(FLOW.words)}</b><span>words dictated</span></div><div><b>${FLOW.wpm}</b><span>words per minute</span></div><div><b>${FLOW.dictations}</b><span>dictations</span></div><div><b>${FLOW.days}</b><span>active days out of 10</span></div></div>
-      <div class="wf-grid"><section class="wf-card"><h3>Words per day</h3><div class="wf-chart">${FLOW.week.map(([d,w]) => `<div><i style="height:${Math.max(3, w/max*100)}%"></i><span>${d}</span></div>`).join("")}</div><p class="wf-note">1 Nov: ${fmt(6924)} words. That was the day I built this room by talking.</p></section>
-      <section class="wf-card"><h3>Where I dictate</h3>${FLOW.apps.map(([a,w]) => `<div class="wf-bar"><span>${a}</span><div><i style="width:${w/appMax*100}%"></i></div><b>${fmt(w)}</b></div>`).join("")}<p class="wf-note">Mostly into Claude and Codex: I build by talking.</p></section></div>
+    home: () => `<h1>Welcome back, Utsav</h1><p class="wf-sub">My real numbers from Wispr Flow's Insights, as of 2 Nov 2026.</p>
+      <div class="wf-stats"><div><b>${fmt(FLOW.words)}</b><span>words dictated. About one whole book.</span></div><div><b>${FLOW.wpm}</b><span>words per minute, top ${FLOW.top} of Flow users</span></div><div><b>${fmt(FLOW.fixes)}</b><span>fixes made by Flow (${fmt(FLOW.corrected)} words, ${fmt(FLOW.dictFixes)} dictionary)</span></div><div><b>${FLOW.streak} days</b><span>current streak · longest ${FLOW.longest} · ${FLOW.appsUsed} apps</span></div></div>
+      <section class="wf-card" style="margin-bottom:12px"><h3>What I dictate</h3>${FLOW.kinds.map(([k,n,pc]) => `<div class="wf-bar"><span>${k}</span><div><i style="width:${Math.max(2,pc)}%"></i></div><b>${n} · ${pc}%</b></div>`).join("")}<p class="wf-note">147 AI prompts: that's how I build. I say the full idea instead of typing a short one.</p></section>
+      <div class="wf-grid"><section class="wf-card"><h3>Words per day, last week</h3><div class="wf-chart">${FLOW.week.map(([d,w]) => `<div><i style="height:${Math.max(3, w/max*100)}%"></i><span>${d}</span></div>`).join("")}</div><p class="wf-note">1 Nov: ${fmt(6924)} words. That was the day I built this room by talking.</p></section>
+      <section class="wf-card"><h3>Where the words went, last week</h3>${FLOW.apps.map(([a,w]) => `<div class="wf-bar"><span>${a}</span><div><i style="width:${w/appMax*100}%"></i></div><b>${fmt(w)}</b></div>`).join("")}<p class="wf-note">Mostly into Claude and Codex: I build by talking.</p></section></div>
       <div class="row" style="margin-top:16px"><button class="btn" data-open="story">▶ Watch how I built this</button><a class="btn ghost" href="https://wisprflow.ai" target="_blank" rel="noopener">Download Wispr Flow ↗</a></div>`,
-    dict: () => `<h1>Dictionary</h1><p class="wf-sub">${FLOW.dict} words I've taught Flow so far. Names are still the hard part, which is why I designed a spoken check.</p><button class="btn" data-open="flow">Try the name-fix concept →</button>`,
+    dict: () => `<h1>Dictionary</h1><p class="wf-sub">${fmt(FLOW.dictFixes)} dictionary fixes so far. Names are still the hard part, which is why I designed a spoken check.</p><button class="btn" data-open="flow">Try the name-fix concept →</button>`,
     snip: () => `<h1>Snippets</h1><p class="wf-sub">Short cues that expand into text I repeat, like my email and links.</p><div class="wf-card"><div class="wf-snip"><b>“my email”</b> → utsav.udk@gmail.com</div><div class="wf-snip"><b>“my linkedin”</b> → linkedin.com/in/utsav-tech</div></div>`,
     style: () => `<h1>Style</h1><p class="wf-sub">Casual in chats, clear and complete in prompts. Flow keeps my voice and drops the “um”s.</p><button class="btn" data-open="flow">See messy → clean →</button>`,
     notes: () => `<h1>Notes</h1><p class="wf-sub">Where ideas land before they become builds.</p><button class="btn" data-open="notes">Open my notes →</button>`,
@@ -1430,7 +1399,7 @@ BUILD.story = (el, win) => {
     <div class="app" id="app"><aside><div class="brand"><img src="assets/wispr-flow-icon.png" alt="">Flow</div><div class="on">Home</div><div>Dictionary</div><div>Snippets</div><div>Style</div><div>Notes</div><div class="sp"></div><div>Settings</div></aside>
       <main><h4>Home · my dictations</h4><div class="feed" id="feed"></div></main></div>
     <div class="shapes" id="shapes">${SHAPES.map(x=>`<div class="shape${x[1]==="ok"&&x[2]==="mac"?" win":""}"><div class="art">${art(x[2])}</div><b>${x[0]}</b><em class="${x[1]}">${x[1]==="no"?"NOPE":"YES"}</em></div>`).join("")}</div>
-    <div class="final" id="final"><div class="stats"><div><b>6</b>rounds, spoken</div><div><b>3</b>full redesigns</div><div><b>15</b>apps on this Mac</div></div>
+    <div class="final" id="final"><div class="stats"><div><b>6</b>rounds, spoken</div><div><b>3</b>full redesigns</div><div><b>14</b>apps on this Mac</div></div>
       <div class="row"><button class="btn" id="toBuild">Build your own thing →</button><a class="btn ghost" href="https://wisprflow.ai" target="_blank" rel="noopener">Download Wispr Flow ↗</a><button class="btn ghost" id="toDesk">Back to my desk</button></div></div>
     <div class="ctrl"><button id="pp">Pause</button><div class="dots" id="dots">${"<b><i></i></b>".repeat(5)}</div><button id="again">Replay</button></div>
   </div>`;
@@ -1479,7 +1448,7 @@ BUILD.story = (el, win) => {
 /* ---------- 3-minute tour: the best evidence, in order ---------- */
 const TOUR = [
   { app:"story", t:"How I built this", d:"Ideas in my head → Wispr Flow → this site. About a minute." },
-  { app:"pay",   t:"Would anyone pay?", d:"My honest doubt about paying for voice, and the small test I'd run." },
+  { app:"made",  t:"My Wispr Flow", d:"My real numbers: 102,899 words dictated, 144 wpm, top 0.2%." },
   { app:"camp",  t:"Say the full idea", d:"The first growth experiment I'd run for Wispr in India." },
   { app:"mail",  t:"Let's talk", d:"Full-time or internship. Bangalore, and happy to travel." }
 ];
